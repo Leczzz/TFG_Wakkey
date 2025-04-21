@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="12dp"
+    app:cardCornerRadius="24dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@color/element_background"
+    app:cardStrokeWidth="2dp"
+    app:cardStrokeColor="@color/blue_border">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:weightSum="3">
+
+        <!-- Izquierda: hora y días -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:textAlignment="center">
+
+            <TextView
+                android:id="@+id/txtHora"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_6_00"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:contentDescription="@string/hora_de_la_alarma_6_00"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/txtDias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/l_m_x_j_v_s_d"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/d_as_activos_lunes_a_domingo" />
+        </LinearLayout>
+
+        <!-- Centro: nombre del juego -->
+        <TextView
+            android:id="@+id/txtJuego"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/tic_tac_toe"
+            android:textColor="@android:color/black"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:contentDescription="@string/juego_tic_tac_toe" />
+
+        <!-- Derecha: Switch para activar/desactivar -->
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchActivo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:thumbTint="@android:color/black"
+            android:contentDescription="@string/activar_o_desactivar_alarma" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+

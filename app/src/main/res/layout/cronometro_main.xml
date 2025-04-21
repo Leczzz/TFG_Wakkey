@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Contenedor del contenido principal con padding -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título "Cronómetro" -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cronometro"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp">
+
+            <!-- Display del cronómetro - más grande y centrado -->
+            <TextView
+                android:id="@+id/txtTiempo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00:00"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="64sp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="48dp"
+                android:fontFamily="monospace"/>
+        </LinearLayout>
+        <!-- Botón para iniciar el cronómetro -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="24dp">
+
+            <!-- Botón Iniciar con borde y sin fondo -->
+            <Button
+                android:id="@+id/btnIniciar"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:text="@string/iniciar"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:background="@drawable/border_button"
+                android:stateListAnimator="@null"
+                android:padding="8dp"/>
+            <!-- Botones secundarios (ocultos inicialmente) -->
+            <Button
+                android:id="@+id/btnPausar"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:text="@string/vuelta"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/border_button"/>
+
+            <Button
+                android:id="@+id/btnReiniciar"
+                android:layout_width="160dp"
+                android:layout_height="60dp"
+                android:text="@string/parar"
+                android:textSize="20sp"
+                android:visibility="gone"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/border_button"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Menú inferior - más compacto -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:background="@color/menu_background">
+
+        <!-- Botón Alarma -->
+        <Button
+            android:id="@+id/btnAlarma"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/alarma"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp"/>
+
+        <!-- Botón Juegos -->
+        <Button
+            android:id="@+id/btnJuegos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/juegos"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp"/>
+
+        <!-- Botón Cronómetro (activo) -->
+        <Button
+            android:id="@+id/btnCronometro"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cronometro"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp"/>
+
+        <!-- Botón Cuenta atrás -->
+        <Button
+            android:id="@+id/btnCuentaAtras"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cuenta_atras"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp"/>
+    </LinearLayout>
+</LinearLayout>

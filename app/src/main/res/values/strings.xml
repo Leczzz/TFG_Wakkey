@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Wakkey</string>
+    <string name="alarma">Alarma</string>
+    <string name="juegos">Juegos</string>
+    <string name="cuenta_atras">Cuenta atrás</string>
+    <string name="cronometro">Cronómetro</string>
+    <string name="tic_tac_toe">Tic - Tac - Toe</string>
+    <string name="juego_tic_tac_toe">Juego: Tic Tac Toe</string>
+    <string name="activar_o_desactivar_alarma">Activar o desactivar alarma</string>
+    <string name="d_as_activos_lunes_a_domingo">Días activos: lunes a domingo</string>
+    <string name="l_m_x_j_v_s_d">L M X J V S D</string>
+    <string name="hora_de_la_alarma_6_00">Hora de la alarma: 6:00</string>
+    <string name="_6_00">6:00</string>
+    <string name="a_adir_nueva_alarma">Añadir nueva alarma</string>
+    <string name="opciones">Opciones</string>
+    <string name="alarmas">Alarmas</string>
+    <string name="alarmas_guardadas">Alarmas guardadas</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="vuelta">Vuelta</string>
+    <string name="parar">Parar</string>
+</resources>
