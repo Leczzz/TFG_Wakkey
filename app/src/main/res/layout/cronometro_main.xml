@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutPrincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+>
 
-    <!-- Contenedor del contenido principal con padding -->
+    <!-- Contenedor principal con padding -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.9"
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Título "Cronómetro" -->
+        <!-- Título "Cronómetro" con mayor margen superior -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -21,17 +23,17 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp" />
 
+        <!-- Display del tiempo -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
             android:padding="24dp">
 
-            <!-- Display del cronómetro - más grande y centrado -->
             <TextView
                 android:id="@+id/txtTiempo"
                 android:layout_width="wrap_content"
@@ -39,62 +41,132 @@
                 android:text="00:00:00"
                 android:textColor="@color/black"
                 android:textStyle="bold"
-                android:textSize="64sp"
+                android:textSize="56sp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="48dp"
-                android:fontFamily="monospace"/>
+                android:layout_marginBottom="32dp"
+                android:fontFamily="monospace" />
         </LinearLayout>
-        <!-- Botón para iniciar el cronómetro -->
-        <LinearLayout
+
+
+
+        <!-- Tabla de vueltas -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="24dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
-            <!-- Botón Iniciar con borde y sin fondo -->
-            <Button
-                android:id="@+id/btnIniciar"
-                android:layout_width="160dp"
-                android:layout_height="60dp"
-                android:text="@string/iniciar"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:background="@drawable/border_button"
-                android:stateListAnimator="@null"
-                android:padding="8dp"/>
-            <!-- Botones secundarios (ocultos inicialmente) -->
-            <Button
-                android:id="@+id/btnPausar"
-                android:layout_width="160dp"
-                android:layout_height="60dp"
-                android:text="@string/vuelta"
-                android:textSize="20sp"
-                android:visibility="gone"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/border_button"/>
+            <TableLayout
+                android:id="@+id/tablaVueltas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:padding="8dp"
+                android:layout_gravity="center">
 
-            <Button
-                android:id="@+id/btnReiniciar"
-                android:layout_width="160dp"
-                android:layout_height="60dp"
-                android:text="@string/parar"
-                android:textSize="20sp"
-                android:visibility="gone"
-                android:layout_marginStart="16dp"
-                android:background="@drawable/border_button"/>
-        </LinearLayout>
+                <!-- Cabecera de tabla -->
+                <TableRow>
+
+                    <TextView
+                        android:text="@string/vuelta"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:padding="12dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"/>
+
+                    <TextView
+                        android:text="@string/tiempo_vuleta"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:padding="12dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"/>
+
+                    <TextView
+                        android:text="@string/tiempo_total"
+                        android:textStyle="bold"
+                        android:textSize="18sp"
+                        android:textColor="@color/black"
+                        android:padding="12dp"
+                        android:gravity="center"
+                        android:layout_margin="1dp"/>
+                </TableRow>
+            </TableLayout>
+        </ScrollView>
     </LinearLayout>
-
-    <!-- Menú inferior - más compacto -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/btnIniciar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/iniciar"
+            android:background="@drawable/border_button"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnPausar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/vuelta"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+        <Button
+            android:id="@+id/btnReiniciar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/parar"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+        <Button
+            android:id="@+id/btnReanudar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/reanudar"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+        <Button
+            android:id="@+id/btnDetener"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/detener"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+    </LinearLayout>
+
+    <!-- Menú inferior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         android:weightSum="4"
         android:background="@color/menu_background">
 
-        <!-- Botón Alarma -->
         <Button
             android:id="@+id/btnAlarma"
             android:layout_width="0dp"
@@ -106,9 +178,8 @@
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
-            android:padding="4dp"/>
+            android:padding="4dp" />
 
-        <!-- Botón Juegos -->
         <Button
             android:id="@+id/btnJuegos"
             android:layout_width="0dp"
@@ -120,9 +191,8 @@
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
-            android:padding="4dp"/>
+            android:padding="4dp" />
 
-        <!-- Botón Cronómetro (activo) -->
         <Button
             android:id="@+id/btnCronometro"
             android:layout_width="0dp"
@@ -134,9 +204,8 @@
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
-            android:padding="4dp"/>
+            android:padding="4dp" />
 
-        <!-- Botón Cuenta atrás -->
         <Button
             android:id="@+id/btnCuentaAtras"
             android:layout_width="0dp"
@@ -148,6 +217,6 @@
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
-            android:padding="4dp"/>
+            android:padding="4dp" />
     </LinearLayout>
 </LinearLayout>

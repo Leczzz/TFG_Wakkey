@@ -1,9 +1,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:color="http://schemas.android.com/aapt"
     android:shape="rectangle">
     <!-- Borde negro de 2dp -->
     <stroke
         android:width="2dp"
-        android:color="@color/black" />
+        android:color="@color/black"
+        />
     <!-- Sin relleno (transparente) -->
     <solid android:color="@android:color/transparent" />
     <!-- Esquinas redondeadas -->

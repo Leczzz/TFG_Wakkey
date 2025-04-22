@@ -18,4 +18,8 @@
     <string name="iniciar">Iniciar</string>
     <string name="vuelta">Vuelta</string>
     <string name="parar">Parar</string>
+    <string name="reanudar">Reanudar</string>
+    <string name="detener">Detener</string>
+    <string name="tiempo_vuleta">Tiempo Vuleta</string>
+    <string name="tiempo_total">Tiempo Total</string>
 </resources>
