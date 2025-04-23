@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutPrincipal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Contenedor principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Título fuera del recuadro -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nueva Alarma"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <!-- Recuadro principal -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounder_container"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Hora editable -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="24dp">
+
+
+                <EditText
+                    android:id="@+id/etHora"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="06:00"
+                    android:textSize="36sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center_horizontal"
+                    android:inputType="time"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"/>
+            </LinearLayout>
+
+            <!-- Nombre alarma -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre alarma"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <EditText
+                android:id="@+id/etNombreAlarma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:text="Alarma 1"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"
+                android:inputType="textCapWords"/>
+
+            <!-- Seleccionar juego -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Seleccionar juego"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerJuego"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/juegos_array"
+                android:prompt="@string/seleccionar_juego"/>
+
+            <!-- Dificultad del juego -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dificultad del juego"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerDificultad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/dificultad_array"
+                android:prompt="@string/seleccionar_dificultad"/>
+
+            <!-- Repetir alarma -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Repetir alarma"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <CheckBox
+                    android:id="@+id/cbLunes"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="L"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbMartes"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="M"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbMiercoles"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="X"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbJueves"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="J"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbViernes"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="V"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbSabado"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="S"
+                    android:gravity="center"/>
+
+                <CheckBox
+                    android:id="@+id/cbDomingo"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="D"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <!-- Sonido alarma -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sonido alarma"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="8dp"/>
+
+            <Spinner
+                android:id="@+id/spinnerSonido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/sonidos_array"
+                android:prompt="@string/seleccionar_sonido"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Botones Cancelar y Añadir -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="30dp"
+        android:paddingHorizontal="24dp">
+
+        <Button
+            android:id="@+id/btnCancelar"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Cancelar"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:background="@drawable/border_button"/>
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="1dp"/>
+
+        <Button
+            android:id="@+id/btnAnadir"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Añadir"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:background="@drawable/border_button"/>
+    </LinearLayout>
+
+    <!-- Menú inferior  -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:background="@color/menu_background">
+
+        <Button
+            android:id="@+id/btnAlarma"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/alarma"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnJuegos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/juegos"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnCronometro"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cronometro"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnCuentaAtras"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cuenta_atras"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+    </LinearLayout>
+</LinearLayout>

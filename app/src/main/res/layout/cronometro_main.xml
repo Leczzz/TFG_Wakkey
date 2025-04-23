@@ -7,96 +7,102 @@
     android:orientation="vertical"
 >
 
-    <!-- Contenedor principal con padding -->
+    <!-- Contenedor principal -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.9"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Título "Cronómetro" con mayor margen superior -->
+        <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cronometro"
-            android:textColor="@color/black"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="16dp"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:layout_marginTop="32dp"
-            android:layout_marginBottom="16dp" />
+            android:textColor="@color/black"/>
 
-        <!-- Display del tiempo -->
+        <!-- Cenvuelve tiempo + tabla -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="24dp">
-
-            <TextView
-                android:id="@+id/txtTiempo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="00:00:00"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="56sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="32dp"
-                android:fontFamily="monospace" />
-        </LinearLayout>
-
-
-
-        <!-- Tabla de vueltas -->
-        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:fillViewport="true">
+            android:background="@drawable/rounder_container"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp"> <!-- Espacio antes de los botones -->
 
-            <TableLayout
-                android:id="@+id/tablaVueltas"
+            <!-- Display del tiempo -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
-                android:padding="8dp"
-                android:layout_gravity="center">
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <!-- Cabecera de tabla -->
-                <TableRow>
+                <TextView
+                    android:id="@+id/txtTiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="monospace"
+                    android:text="00:00:00"
+                    android:textColor="@color/black"
+                    android:textSize="56sp" />
+            </LinearLayout>
 
-                    <TextView
+            <!-- Tabla de vueltas -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true">
+
+                <TableLayout
+                    android:id="@+id/tablaVueltas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="8dp"
+                    android:stretchColumns="*"
+                    android:shrinkColumns="*">
+
+                    <!-- Cabecera de tabla -->
+                    <TableRow>
+                        <TextView
+                            android:layout_margin="1dp"
+                            android:gravity="center"
+                            android:padding="8dp"
                         android:text="@string/vuelta"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
                         android:textColor="@color/black"
-                        android:padding="12dp"
-                        android:gravity="center"
-                        android:layout_margin="1dp"/>
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <TextView
-                        android:text="@string/tiempo_vuleta"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:padding="12dp"
-                        android:gravity="center"
-                        android:layout_margin="1dp"/>
+                        <TextView
+                            android:layout_margin="1dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/tiempo_vuleta"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:text="@string/tiempo_total"
-                        android:textStyle="bold"
-                        android:textSize="18sp"
-                        android:textColor="@color/black"
-                        android:padding="12dp"
-                        android:gravity="center"
-                        android:layout_margin="1dp"/>
-                </TableRow>
-            </TableLayout>
-        </ScrollView>
-    </LinearLayout>
+                        <TextView
+                            android:layout_margin="1dp"
+                            android:gravity="center"
+                            android:padding="8dp"
+                            android:text="@string/tiempo_total"
+                            android:textColor="@color/black"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+                    </TableRow>
+                </TableLayout>
+            </ScrollView>
+        </LinearLayout>
+</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

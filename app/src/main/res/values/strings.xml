@@ -22,4 +22,32 @@
     <string name="detener">Detener</string>
     <string name="tiempo_vuleta">Tiempo Vuleta</string>
     <string name="tiempo_total">Tiempo Total</string>
+    <string name="seleccionar_juego">Seleccionar juego</string>
+    <string name="seleccionar_dificultad">Seleccionar juego</string>
+    <string name="seleccionar_sonido">Seleccionar juego</string>
+
+    <string-array name="juegos_array">
+        <item>Despeina a Kkey</item>
+        <item>Despierta a Kkey</item>
+        <item>¡Resta!</item>
+        <item>¡Suma!</item>
+        <item>Scan Kkey</item>
+    </string-array>
+
+    <string-array name="dificultad_array">
+        <item>F - Fácil</item>
+        <item>M - Medio</item>
+        <item>D - Difícil</item>
+    </string-array>
+
+    <string-array name="sonidos_array">
+        <item> Beep Beep</item>
+        <item> Crystal Waters</item>
+        <item>Hawaii</item>
+        <item> Lofi</item>
+        <item>Morning</item>
+        <item> Piano</item>
+    </string-array>
+
+
 </resources>
