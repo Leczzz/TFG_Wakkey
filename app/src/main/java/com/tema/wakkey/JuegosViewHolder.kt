@@ -20,6 +20,7 @@ class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         juego: JuegoEntity,
         onJugarClickListener: (JuegoEntity, String) -> Unit
     ) {
+        ivLogo.setImageResource(juego.imagenResId)
         tvNombreJuego.text = juego.nombre
         tvDescripcion.text = juego.descripcion
 
