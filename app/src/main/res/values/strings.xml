@@ -25,6 +25,25 @@
     <string name="seleccionar_juego">Seleccionar juego</string>
     <string name="seleccionar_dificultad">Seleccionar juego</string>
     <string name="seleccionar_sonido">Seleccionar juego</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="_10_00">10:00</string>
+    <string name="nueva_alarma">Nueva Alarma</string>
+    <string name="nombre_alarma">Nombre alarma</string>
+    <string name="alarma_1">Alarma 1</string>
+    <string name="selecciona_dificultad">Seleccionar dificultad</string>
+    <string name="repetir_alarma">Repetir alarma</string>
+    <string name="l">L</string>
+    <string name="m">M</string>
+    <string name="x">X</string>
+    <string name="j">J</string>
+    <string name="v">V</string>
+    <string name="s">S</string>
+    <string name="d">D</string>
+    <string name="sonido_alarma">Sonido alarma</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="anadir">Añadir</string>
 
     <string-array name="juegos_array">
         <item>Despeina a Kkey</item>

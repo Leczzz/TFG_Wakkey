@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/opcion_ordenar"
+        android:title="Ordenar" />
+
+    <item
+        android:id="@+id/opcion_eliminar"
+        android:title="Eliminar" />
+</menu>
+

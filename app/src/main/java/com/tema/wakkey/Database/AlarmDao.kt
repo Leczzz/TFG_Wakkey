@@ -15,4 +15,11 @@ interface AlarmDao {
 
     @Update
     suspend fun updateAlarm(alarm: AlarmEntity)
+
+    @Query("SELECT * FROM alarms ORDER BY hora ASC")
+    suspend fun getAllAlarmsOrderedByHour(): List<AlarmEntity>
+
+    @Query("DELETE FROM alarms")
+    suspend fun deleteAll()
+
 }
