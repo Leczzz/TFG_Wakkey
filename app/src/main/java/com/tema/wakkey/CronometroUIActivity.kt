@@ -1,14 +1,16 @@
 package com.tema.wakkey
 
-
 import CronometroController
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 
 class CronometroUIActivity : AppCompatActivity() {
     private lateinit var cronometro: CronometroController
@@ -65,6 +67,13 @@ class CronometroUIActivity : AppCompatActivity() {
         // Detener el cronómetro
         btnDetener.setOnClickListener {
             cronometro.reset()
+
+            // Eliminar todas las filas excepto la de encabezado (índice 0)
+            val count = tablaVueltas.childCount
+            if (count > 1) {
+                tablaVueltas.removeViews(1, count - 1)
+            }
+
             configurarBotones()
         }
 
@@ -81,7 +90,8 @@ class CronometroUIActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    // Metodo para configurar la visibilidad de los botones según el estado del cronómetro
+
+    // Método para configurar la visibilidad de los botones según el estado del cronómetro
     private fun configurarBotones() {
         if (cronometro.isRunning) {
             // Si el cronómetro está corriendo, ocultar "Iniciar" y mostrar "Pausar" y "Vuelta"
@@ -104,6 +114,17 @@ class CronometroUIActivity : AppCompatActivity() {
             btnVuelta.visibility = View.GONE
             btnReanudar.visibility = View.GONE
             btnDetener.visibility = View.GONE
+        }
+    }
+
+    // Función auxiliar para crear celdas de texto (opcional, útil si decides crear el encabezado dinámicamente)
+    private fun crearCelda(texto: String): TextView {
+        return TextView(this).apply {
+            this.text = texto
+            textSize = 16f
+            setTextColor(Color.BLACK)
+            gravity = Gravity.CENTER
+            setPadding(12, 12, 12, 12)
         }
     }
 }
