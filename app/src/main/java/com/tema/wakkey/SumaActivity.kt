@@ -119,19 +119,11 @@ class SumaActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        // Asegurarse de cancelar el temporizador
+        // Asegurarse de cancelar el temporizador y liberar recursos
         timer?.cancel()
-
-        // Asegurarse de liberar el MediaPlayer correctamente, controlando el estado
-        try {
-            if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
-                mediaPlayer.stop()
-                mediaPlayer.release()
-            }
-        } catch (e: IllegalStateException) {
-            e.printStackTrace()
-            // Aquí puedes manejar la excepción si lo deseas (mostrar un log, etc.)
+        if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
+            mediaPlayer.stop()
+            mediaPlayer.release()
         }
     }
-
 }

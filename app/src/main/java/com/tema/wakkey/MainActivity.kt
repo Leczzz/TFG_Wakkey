@@ -1,113 +1,67 @@
 package com.tema.wakkey
 
-
+import android.content.Intent
 import android.os.Bundle
-
-import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
-import com.tema.wakkey.Database.JuegoDao
-import com.tema.wakkey.Database.JuegoEntity
-
+import androidx.appcompat.widget.PopupMenu
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var cronometro: CronometroController // Cronómetro
-    private lateinit var txtTiempo: TextView // Cronómetro
-    private lateinit var btnIniciar: Button // Cronómetro
-    private lateinit var btnParar: Button // Cronómetro
-    private lateinit var btnVuelta: Button // Cronómetro
-    private lateinit var btnReanudar: Button // Cronómetro
-    private lateinit var btnDetener: Button // Cronómetro
-    private lateinit var tablaVueltas: TableLayout // Cronómetro
-
-    private var vueltas = mutableListOf<CronometroController.Vuelta>() // Cronómetro
-    private var tiempoUltimaVuelta: Long = 0L // Cronómetro
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.cronometro_main)
+        setContentView(R.layout.activity_main)
 
-        // Inicializa las vistas del cronómetro
-        txtTiempo = findViewById(R.id.txtTiempo)
-        btnIniciar = findViewById(R.id.btnIniciar)
-        btnParar = findViewById(R.id.btnParar)
-        btnVuelta = findViewById(R.id.btnVuelta)
-        btnReanudar = findViewById(R.id.btnReanudar)
-        btnDetener = findViewById(R.id.btnDetener)
-        tablaVueltas = findViewById(R.id.tablaVueltas)
+        val btnAlarma = findViewById<Button>(R.id.btnAlarma)
+        val btnJuegos = findViewById<Button>(R.id.btnJuegos)
+        val btnCronometro = findViewById<Button>(R.id.btnCronometro)
+        val btnCuentaAtras = findViewById<Button>(R.id.btnCuentaAtras)
+        val btnMenuOpciones = findViewById<ImageButton>(R.id.btnMenuOpciones)
+        val btnAddAlarma = findViewById<ImageButton>(R.id.btnAddAlarma)
 
-        // Inicializa el cronómetro
-        cronometro = CronometroController { tiempo ->
-            runOnUiThread {
-                txtTiempo.text = tiempo
+        btnAlarma.setOnClickListener {
+             val intent = Intent(this, AlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+        btnJuegos.setOnClickListener {
+            startActivity(Intent(this, GamesActivity::class.java))
+        }
+
+        btnCronometro.setOnClickListener {
+            startActivity(Intent(this, CronometroUIActivity::class.java))
+        }
+
+        btnCuentaAtras.setOnClickListener {
+            startActivity(Intent(this, CuentaAtrasActivity::class.java))
+        }
+
+        btnAddAlarma.setOnClickListener {
+            startActivity(Intent(this, CrearAlarmaActivity::class.java))
+        }
+
+        btnMenuOpciones.setOnClickListener {
+            val popupMenu = PopupMenu(this, it)
+            popupMenu.menuInflater.inflate(R.menu.menu_opciones, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.opcion_ordenar -> {
+                        val intent = Intent(this, AlarmActivity::class.java)
+                        intent.putExtra("accion", "ordenar")
+                        startActivity(intent)
+                        true
+                    }
+                    R.id.opcion_eliminar -> {
+                        val intent = Intent(this, AlarmActivity::class.java)
+                        intent.putExtra("accion", "eliminar")
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
             }
-        }
-
-        // Acción cuando se pulsa el botón Iniciar
-        btnIniciar.setOnClickListener {
-            cronometro.start()
-            btnIniciar.visibility = View.GONE
-            btnParar.visibility = View.VISIBLE
-            btnVuelta.visibility = View.VISIBLE
-            tiempoUltimaVuelta = 0L
-            limpiarTablaVueltas()
-        }
-
-        // Acción cuando se pulsa el botón Parar
-        btnParar.setOnClickListener {
-            cronometro.registrarVuelta(tablaVueltas)
-        }
-
-        // Acción cuando se pulsa el botón Vuelta
-        btnVuelta.setOnClickListener {
-            cronometro.pause()
-            btnParar.visibility = View.GONE
-            btnVuelta.visibility = View.GONE
-            btnReanudar.visibility = View.VISIBLE
-            btnDetener.visibility = View.VISIBLE
-        }
-
-        // Acción cuando se pulsa el botón Reanudar
-        btnReanudar.setOnClickListener {
-            cronometro.resume()
-            btnReanudar.visibility = View.GONE
-            btnDetener.visibility = View.GONE
-            btnParar.visibility = View.VISIBLE
-            btnVuelta.visibility = View.VISIBLE
-        }
-
-        // Acción cuando se pulsa el botón Detener
-        btnDetener.setOnClickListener {
-            cronometro.reset() // Detener el cronómetro
-            vueltas.clear() // Limpiar la lista de vueltas
-            limpiarTablaVueltas() // Limpiar la tabla de vueltas
-
-            btnReanudar.visibility = View.GONE
-            btnDetener.visibility = View.GONE
-            btnIniciar.visibility = View.VISIBLE
-        }
-
-
-
-    }
-
-    // Metodo para limpiar la tabla de vueltas
-    private fun limpiarTablaVueltas() {
-        val childCount = tablaVueltas.childCount
-        if (childCount > 1) { // Si hay más de una fila (la primera son los encabezados)
-            tablaVueltas.removeViews(1, childCount - 1)
-        }
-    }
-
-    // Metodo para insertar juegos si no existen
-    private suspend fun insertarJuegosSiNoExisten(juegoDao: JuegoDao) {
-        val juegosExistentes = juegoDao.getAllJuegos()
-        if (juegosExistentes.isEmpty()) {
-            juegoDao.insertJuego(JuegoEntity(nombre = "Despeina a Kkey", descripcion = "Sopla al micro hasta llenar la barra de progreso", tieneDificultad = true, imagenResId = R.drawable.despeinakkey))
-            juegoDao.insertJuego(JuegoEntity(nombre = "Despierta a Kkey", descripcion = "Agita el móvil hasta completar la barra de progreso", tieneDificultad = true, imagenResId = R.drawable.despiertakkey))
-            juegoDao.insertJuego(JuegoEntity(nombre = "Resta!", descripcion = "Resuelve 3 restas según el nivel de dificultad", tieneDificultad = true, imagenResId = R.drawable.resta))
-            juegoDao.insertJuego(JuegoEntity(nombre = "Suma!", descripcion = "Resuelve 3 sumas según el nivel de dificultad", tieneDificultad = true, imagenResId = R.drawable.suma))
+            popupMenu.show()
         }
     }
 }

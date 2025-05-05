@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/seccionAlarma"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,14 +23,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="32dp">
 
             <!-- Título "Alarmas" -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alarmas"
-                android:textSize="24sp"
+                android:textSize="34sp"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_marginEnd="8dp"/>
             <!-- Espacio flexible para alinear el menú a la derecha -->
@@ -63,45 +66,46 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerAlarmas"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/alarmas_guardadas"
             tools:listitem="@layout/item_alarm" />
     </LinearLayout>
 
-    <!-- Menú inferior -->
+    <!-- Menú inferior  -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         android:weightSum="4"
         android:background="@color/menu_background">
 
-        <!-- Botón activo: Alarma -->
         <Button
             android:id="@+id/btnAlarma"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/alarma"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="@android:color/white"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
 
-        <!-- Otros botones del menú... -->
         <Button
             android:id="@+id/btnJuegos"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/juegos"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
 
         <Button
             android:id="@+id/btnCronometro"
@@ -109,11 +113,13 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/cronometro"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
 
         <Button
             android:id="@+id/btnCuentaAtras"
@@ -121,10 +127,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/cuenta_atras"
+            android:textStyle="bold"
             android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
-            android:stateListAnimator="@null" />
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
     </LinearLayout>
 </LinearLayout>

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/seccionCronometro"
+    android:id="@+id/seccionCuentaatras"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
->
+    >
 
     <!-- Contenedor principal -->
     <LinearLayout
@@ -13,21 +12,21 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="24dp" android:layout_marginTop="32dp"
-        >
+        android:padding="24dp"
+        android:layout_marginTop="32dp">
 
         <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cronometro"
+            android:text="@string/cuenta_atras"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="16dp"
             android:textSize="34sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
-        <!-- Cenvuelve tiempo + tabla -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -35,7 +34,7 @@
             android:background="@drawable/rounder_container"
             android:orientation="vertical"
             android:padding="16dp"
-            android:layout_marginBottom="16dp"> <!-- Espacio antes de los botones -->
+            android:layout_marginBottom="16dp">
 
             <!-- Display del tiempo -->
             <LinearLayout
@@ -45,65 +44,63 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/txtTiempo"
+                <!-- Campo de edición del tiempo (solo editable antes de iniciar) -->
+                <EditText
+                    android:id="@+id/editTiempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:text="@string/_00_00_00"
                     android:textStyle="bold"
-                    android:text="00:00:00"
                     android:textColor="@color/black"
-                    android:textSize="56sp" />
+                    android:textSize="56sp"
+                    android:gravity="center"
+                    android:maxLength="8"
+                    android:ems="8"
+                    android:enabled="true" />
+
             </LinearLayout>
 
-            <!-- Tabla de vueltas -->
-            <ScrollView
+            <!-- Display de hora cuando suene alarma -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TableLayout
-                    android:id="@+id/tablaVueltas"
-                    android:layout_width="match_parent"
+                <!-- Hora de alarma + icono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="8dp"
-                    android:stretchColumns="*"
-                    android:shrinkColumns="*">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
 
-                    <!-- Cabecera de tabla -->
-                    <TableRow>
-                        <TextView
-                            android:layout_margin="1dp"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/vuelta"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/txtHoracuentatras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="@string/_10_00"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
 
-                        <TextView
-                            android:layout_margin="1dp"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/tiempo_vuleta"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/iconoCampana"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/alarm_icon"
+                        android:contentDescription="@string/alarma" />
+                </LinearLayout>
 
-                        <TextView
-                            android:layout_margin="1dp"
-                            android:gravity="center"
-                            android:padding="8dp"
-                            android:text="@string/tiempo_total"
-                            android:textColor="@color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-                    </TableRow>
-                </TableLayout>
-            </ScrollView>
+            </LinearLayout>
+
+
         </LinearLayout>
-</LinearLayout>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,24 +120,24 @@
             android:padding="8dp" />
 
         <Button
-            android:id="@+id/btnVuelta"
+            android:id="@+id/btnEliminar"
             android:layout_width="160dp"
             android:layout_height="60dp"
-            android:text="@string/vuelta"
+            android:text="@string/eliminar"
+            android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:visibility="gone"
-            android:textStyle="bold"
             android:layout_marginStart="16dp"
             android:background="@drawable/border_button" />
 
         <Button
-            android:id="@+id/btnPausar"
+            android:id="@+id/btnParar"
             android:layout_width="160dp"
             android:layout_height="60dp"
             android:text="@string/parar"
-            android:textStyle="bold"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:visibility="gone"
             android:textColor="@color/black"
             android:layout_marginStart="16dp"
@@ -158,17 +155,6 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/border_button" />
 
-        <Button
-            android:id="@+id/btnDetener"
-            android:layout_width="160dp"
-            android:layout_height="60dp"
-            android:text="@string/detener"
-            android:textStyle="bold"
-            android:textSize="20sp"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            android:layout_marginStart="16dp"
-            android:background="@drawable/border_button" />
     </LinearLayout>
 
     <!-- Menú inferior -->
@@ -199,24 +185,24 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/juegos"
-            android:textStyle="bold"
             android:textSize="14sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
+            android:textStyle="bold"
             android:padding="4dp" />
 
         <Button
             android:id="@+id/btnCronometro"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:textColor="#808080"
+            android:textStyle="bold"
             android:layout_weight="1"
             android:text="@string/cronometro"
             android:textSize="14sp"
-            android:textColor="@android:color/white"
             android:gravity="center"
-            android:textStyle="bold"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"
             android:padding="4dp" />
@@ -227,9 +213,9 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/cuenta_atras"
-            android:textSize="14sp"
-            android:textColor="#808080"
             android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null"

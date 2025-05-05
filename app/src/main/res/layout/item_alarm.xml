@@ -65,11 +65,10 @@
             android:id="@+id/switchActivo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:thumbTint="@android:color/black"
+            android:layout_gravity="center_vertical"
             android:contentDescription="@string/activar_o_desactivar_alarma" />
+
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

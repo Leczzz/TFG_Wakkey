@@ -2,6 +2,7 @@ package com.tema.wakkey
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -27,10 +28,9 @@ class AlarmActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerAlarmas)
         val db = AppDatabase.getInstance(this)
-
         alarmDao = db.alarmDao()
 
-        adapter = AlarmAdapter(emptyList()) { alarma, isChecked ->
+        adapter = AlarmAdapter(mutableListOf()) { alarma, isChecked ->
             lifecycleScope.launch {
                 alarmDao.updateAlarm(alarma.copy(esActivo = isChecked))
                 cargarAlarmas()
@@ -50,9 +50,7 @@ class AlarmActivity : AppCompatActivity() {
             startActivity(Intent(this, CronometroUIActivity::class.java))
         }
 
-        findViewById<Button>(R.id.btnAlarma).setOnClickListener {
-            // Ya estás aquí
-        }
+        findViewById<Button>(R.id.btnAlarma).setOnClickListener {}
 
         val btnMenuOpciones = findViewById<ImageButton>(R.id.btnMenuOpciones)
         btnMenuOpciones.setOnClickListener {
@@ -74,7 +72,6 @@ class AlarmActivity : AppCompatActivity() {
             popupMenu.show()
         }
 
-        // Ejecuta acciones enviadas desde MainActivity
         when (intent.getStringExtra("accion")) {
             "ordenar" -> ordenarAlarmas()
             "eliminar" -> mostrarDialogoConfirmacion()
@@ -88,15 +85,23 @@ class AlarmActivity : AppCompatActivity() {
 
     private fun cargarAlarmas() {
         lifecycleScope.launch {
-            val alarmas = alarmDao.getAllAlarms()
-            adapter.actualizarLista(alarmas)
+            try {
+                val alarmas = alarmDao.getAllAlarms()
+                adapter.actualizarLista(alarmas)
+            } catch (e: Exception) {
+                Log.e("AlarmActivity", "Error al cargar alarmas", e)
+            }
         }
     }
 
     private fun ordenarAlarmas() {
         lifecycleScope.launch {
-            val alarmasOrdenadas = alarmDao.getAllAlarmsOrderedByHour()
-            adapter.actualizarLista(alarmasOrdenadas)
+            try {
+                val alarmasOrdenadas = alarmDao.getAllAlarmsOrderedByHour()
+                adapter.actualizarLista(alarmasOrdenadas)
+            } catch (e: Exception) {
+                Log.e("AlarmActivity", "Error al ordenar alarmas", e)
+            }
         }
     }
 
@@ -106,8 +111,12 @@ class AlarmActivity : AppCompatActivity() {
             .setMessage("¿Estás segura de que quieres eliminar todas las alarmas?")
             .setPositiveButton("Sí") { _, _ ->
                 lifecycleScope.launch {
-                    alarmDao.deleteAll()
-                    adapter.actualizarLista(emptyList())
+                    try {
+                        alarmDao.deleteAll()
+                        adapter.actualizarLista(emptyList())
+                    } catch (e: Exception) {
+                        Log.e("AlarmActivity", "Error al eliminar alarmas", e)
+                    }
                 }
             }
             .setNegativeButton("Cancelar", null)

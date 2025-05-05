@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutPrincipal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,16 +11,17 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:padding="24dp"
+        android:layout_marginTop="32dp">
 
         <!-- Título fuera del recuadro -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nueva Alarma"
+            android:text="@string/nueva_alarma"
             android:layout_marginTop="22dp"
             android:layout_marginBottom="16dp"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
 
@@ -86,8 +86,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nombre alarma"
+                android:text="@string/nombre_alarma"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
 
@@ -97,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:minHeight="48dp"
                 android:paddingVertical="12dp"
-                android:text="Alarma 1"
+                android:text="@string/alarma_1"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="16dp"
@@ -107,7 +108,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Seleccionar juego"
+                android:text="@string/seleccionar_juego"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
@@ -127,7 +129,8 @@
                 android:id="@+id/tvDificultad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dificultad del juego"
+                android:text="@string/selecciona_dificultad"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
@@ -146,7 +149,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Repetir alarma"
+                android:text="@string/repetir_alarma"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
@@ -164,7 +168,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="L"
+                    android:text="@string/l"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -174,7 +178,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="M"
+                    android:text="@string/m"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -184,7 +188,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="X"
+                    android:text="@string/x"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -194,7 +198,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="J"
+                    android:text="@string/j"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -204,7 +208,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="V"
+                    android:text="@string/v"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -214,7 +218,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="S"
+                    android:text="@string/s"
                     android:gravity="center"/>
 
                 <CheckBox
@@ -224,7 +228,7 @@
                     android:layout_weight="1"
                     android:minHeight="48dp"
                     android:minWidth="48dp"
-                    android:text="D"
+                    android:text="@string/d"
                     android:gravity="center"/>
             </LinearLayout>
 
@@ -233,7 +237,8 @@
                 android:id="@+id/tvSonidoAlarma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sonido alarma"
+                android:text="@string/sonido_alarma"
+                android:textStyle="bold"
                 android:textSize="16sp"
                 android:textColor="@color/black"
                 android:layout_marginBottom="8dp"/>
@@ -241,10 +246,11 @@
             <Spinner
                 android:id="@+id/spinnerSonido"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:minHeight="48dp"
                 android:entries="@array/sonidos_array"
-                android:prompt="@string/seleccionar_sonido"/>
+                android:prompt="@string/seleccionar_sonido" />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -262,7 +268,8 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="Cancelar"
+            android:text="@string/cancelar"
+            android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:background="@drawable/border_button"/>
@@ -276,7 +283,8 @@
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:text="Añadir"
+            android:textStyle="bold"
+            android:text="@string/anadir"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:background="@drawable/border_button"/>
@@ -296,7 +304,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/alarma"
-            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="@android:color/white"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
@@ -309,7 +318,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/juegos"
-            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
@@ -322,7 +332,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/cronometro"
-            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
@@ -335,7 +346,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/cuenta_atras"
-            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textSize="16sp"
             android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"

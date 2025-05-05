@@ -1,5 +1,3 @@
-package com.tema.wakkey
-
 import android.graphics.Color
 import android.os.Handler
 import android.os.Looper
@@ -104,30 +102,25 @@ class CronometroController(private val onTick: (String) -> Unit) {
         agregarFilaTabla(vuelta, tablaVueltas)
     }
 
-    // Agregar fila a la tabla de vueltas
-    private fun agregarFilaTabla(vuelta: Vuelta, tablaVueltas: TableLayout) {
-        val fila = TableRow(tablaVueltas.context).apply {
-            layoutParams = TableLayout.LayoutParams(
-                TableLayout.LayoutParams.MATCH_PARENT,
-                TableLayout.LayoutParams.WRAP_CONTENT
-            )
+    private fun crearCelda(texto: String, context: android.content.Context): TextView {
+        return TextView(context).apply {
+            this.text = texto
+            textSize = 16f
+            setTextColor(Color.BLACK)
+            gravity = Gravity.CENTER
+            setPadding(12, 12, 12, 12)
         }
-
-        // Crear celdas para la tabla
-        fun createTableCell(text: String): TextView {
-            return TextView(tablaVueltas.context).apply {
-                this.text = text
-                textSize = 16f
-                setTextColor(Color.BLACK)
-                gravity = Gravity.CENTER
-                setPadding(12, 12, 12, 12)
-            }
-        }
-
-        fila.addView(createTableCell("Vuelta ${vuelta.numero}"))
-        fila.addView(createTableCell(vuelta.tiempoVuelta))
-        fila.addView(createTableCell(vuelta.tiempoTotal))
-
-        tablaVueltas.addView(fila) // Agregar la fila a la tabla
     }
+
+    private fun agregarFilaTabla(vuelta: Vuelta, tablaVueltas: TableLayout) {
+        val fila = TableRow(tablaVueltas.context)
+        fila.addView(crearCelda("Vuelta ${vuelta.numero}", tablaVueltas.context))
+        fila.addView(crearCelda(vuelta.tiempoVuelta, tablaVueltas.context))
+        fila.addView(crearCelda(vuelta.tiempoTotal, tablaVueltas.context))
+        tablaVueltas.addView(fila)
+    }
+
+    // Nuevos getters para los estados
+    val isRunningState: Boolean get() = isRunning
+    val isPausedState: Boolean get() = isPaused
 }

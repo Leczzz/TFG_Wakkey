@@ -1,19 +1,23 @@
 package com.tema.wakkey
 
+import CronometroController
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.TableLayout
+import android.widget.TableRow
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
 
 class CronometroUIActivity : AppCompatActivity() {
     private lateinit var cronometro: CronometroController
     private lateinit var txtTiempo: TextView
     private lateinit var tablaVueltas: TableLayout
     private lateinit var btnIniciar: Button
-    private lateinit var btnParar: Button
+    private lateinit var btnPausar: Button
     private lateinit var btnReanudar: Button
     private lateinit var btnVuelta: Button
     private lateinit var btnDetener: Button
@@ -34,7 +38,7 @@ class CronometroUIActivity : AppCompatActivity() {
 
         // Inicializar botones
         btnIniciar = findViewById(R.id.btnIniciar)
-        btnParar = findViewById(R.id.btnParar)
+        btnPausar = findViewById(R.id.btnPausar)
         btnReanudar = findViewById(R.id.btnReanudar)
         btnVuelta = findViewById(R.id.btnVuelta)
         btnDetener = findViewById(R.id.btnDetener)
@@ -49,7 +53,7 @@ class CronometroUIActivity : AppCompatActivity() {
         }
 
         // Pausar el cronómetro
-        btnParar.setOnClickListener {
+        btnPausar.setOnClickListener {
             cronometro.pause()
             configurarBotones()
         }
@@ -63,6 +67,13 @@ class CronometroUIActivity : AppCompatActivity() {
         // Detener el cronómetro
         btnDetener.setOnClickListener {
             cronometro.reset()
+
+            // Eliminar todas las filas excepto la de encabezado (índice 0)
+            val count = tablaVueltas.childCount
+            if (count > 1) {
+                tablaVueltas.removeViews(1, count - 1)
+            }
+
             configurarBotones()
         }
 
@@ -79,29 +90,41 @@ class CronometroUIActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    // Metodo para configurar la visibilidad de los botones según el estado del cronómetro
+
+    // Método para configurar la visibilidad de los botones según el estado del cronómetro
     private fun configurarBotones() {
         if (cronometro.isRunning) {
             // Si el cronómetro está corriendo, ocultar "Iniciar" y mostrar "Pausar" y "Vuelta"
             btnIniciar.visibility = View.GONE
-            btnParar.visibility = View.VISIBLE
+            btnPausar.visibility = View.VISIBLE
             btnVuelta.visibility = View.VISIBLE
             btnReanudar.visibility = View.GONE
             btnDetener.visibility = View.GONE
         } else if (cronometro.isPaused) {
             // Si el cronómetro está pausado, ocultar "Iniciar" y mostrar "Reanudar" y "Detener"
             btnIniciar.visibility = View.GONE
-            btnParar.visibility = View.GONE
+            btnPausar.visibility = View.GONE
             btnVuelta.visibility = View.GONE
             btnReanudar.visibility = View.VISIBLE
             btnDetener.visibility = View.VISIBLE
         } else {
             // Si el cronómetro está detenido, mostrar "Iniciar" y ocultar los demás botones
             btnIniciar.visibility = View.VISIBLE
-            btnParar.visibility = View.GONE
+            btnPausar.visibility = View.GONE
             btnVuelta.visibility = View.GONE
             btnReanudar.visibility = View.GONE
             btnDetener.visibility = View.GONE
+        }
+    }
+
+    // Función auxiliar para crear celdas de texto (opcional, útil si decides crear el encabezado dinámicamente)
+    private fun crearCelda(texto: String): TextView {
+        return TextView(this).apply {
+            this.text = texto
+            textSize = 16f
+            setTextColor(Color.BLACK)
+            gravity = Gravity.CENTER
+            setPadding(12, 12, 12, 12)
         }
     }
 }

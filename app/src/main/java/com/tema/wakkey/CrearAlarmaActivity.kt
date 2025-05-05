@@ -4,12 +4,14 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tema.wakkey.Database.AlarmEntity
@@ -37,13 +39,18 @@ class CrearAlarmaActivity : AppCompatActivity() {
         )
 
         spinnerSonido.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (!isSpinnerInitialized) {
                     isSpinnerInitialized = true
                     return
                 }
 
-                val sonidoSeleccionado = parent.getItemAtPosition(position).toString()
+                val sonidoSeleccionado = parent?.getItemAtPosition(position).toString()
                 val sonidoResId = sonidosMap[sonidoSeleccionado] ?: return
 
                 if (::mediaPlayer.isInitialized) {
@@ -70,6 +77,7 @@ class CrearAlarmaActivity : AppCompatActivity() {
 
         val etNombre = findViewById<EditText>(R.id.etNombreAlarma)
         val etHora = findViewById<EditText>(R.id.etHora)
+        val etMinutos = findViewById<EditText>(R.id.etMinutos)
         val spinnerJuego = findViewById<Spinner>(R.id.spinnerJuego)
         val spinnerDificultad = findViewById<Spinner>(R.id.spinnerDificultad)
 
@@ -90,20 +98,24 @@ class CrearAlarmaActivity : AppCompatActivity() {
 
         btnAnadir.setOnClickListener {
             val nombre = etNombre.text.toString().ifBlank { "Alarma sin nombre" }
+
             val horaTexto = etHora.text.toString()
+            val minutoTexto = etMinutos.text.toString()
 
-            if (!horaTexto.matches(Regex("^\\d{1,2}:\\d{2}$"))) {
-                Toast.makeText(this, "Formato de hora inválido. Usa HH:mm", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val horaNum = horaTexto.toIntOrNull()
+            val minutoNum = minutoTexto.toIntOrNull()
 
-            val (horaNum, minutoNum) = horaTexto.split(":").map { it.toIntOrNull() ?: -1 }
-            if (horaNum !in 0..23 || minutoNum !in 0..59) {
-                Toast.makeText(this, "La hora debe estar entre 00:00 y 23:59", Toast.LENGTH_SHORT).show()
+            if (horaNum == null || minutoNum == null || horaNum !in 0..23 || minutoNum !in 0..59) {
+                Toast.makeText(
+                    this,
+                    "Hora inválida. Introduce valores entre 00–23 y 00–59",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
 
             val juego = spinnerJuego.selectedItem.toString()
+            Log.d("CrearAlarma", "Juego seleccionado: $juego")  // Log para depurar el nombre del juego
             val dificultadTexto = spinnerDificultad.selectedItem.toString()
             val dificultad = when (dificultadTexto.lowercase()) {
                 "fácil" -> 'F'
@@ -143,56 +155,65 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 sonido = sonido
             )
 
-            val db = AppDatabase.getInstance(applicationContext)
-
-            lifecycleScope.launch {
-                db.alarmDao().insertAlarm(nuevaAlarma)
-                Log.d("CrearAlarma", "Alarma guardada: $nuevaAlarma")
-
-                // === PROGRAMAR LA ALARMA ===
-                val alarmTime = Calendar.getInstance().apply {
-                    set(Calendar.HOUR_OF_DAY, horaNum)
-                    set(Calendar.MINUTE, minutoNum)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                    if (before(Calendar.getInstance())) {
-                        add(Calendar.DAY_OF_MONTH, 1)
-                    }
-                }
-
-                val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
-                    putExtra("sonido", sonido)
-                    putExtra("idJuego", idJuego)
-                    putExtra("dificultad", dificultad)
-                }
-
-                val pendingIntent = PendingIntent.getBroadcast(
-                    applicationContext,
-                    System.currentTimeMillis().toInt(),
-                    alarmIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
-
-                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    alarmTime.timeInMillis,
-                    pendingIntent
-                )
-
-                runOnUiThread {
-                    Toast.makeText(this@CrearAlarmaActivity, "Alarma guardada correctamente", Toast.LENGTH_SHORT).show()
-                    finish()
+            val alarmTime = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, horaNum)
+                set(Calendar.MINUTE, minutoNum)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+                if (before(Calendar.getInstance())) {
+                    add(Calendar.DAY_OF_MONTH, 1)
                 }
             }
-        }
-    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        handler.removeCallbacksAndMessages(null)
-        if (::mediaPlayer.isInitialized) {
-            mediaPlayer.release()
+            val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
+                putExtra("sonido", sonido)
+                putExtra("idJuego", idJuego)
+                putExtra("dificultad", dificultad)
+            }
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                System.currentTimeMillis().toInt(),
+                alarmIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                AlertDialog.Builder(this)
+                    .setTitle("Permiso requerido")
+                    .setMessage("Para que las alarmas suenen correctamente, activa la opción 'Permitir alarmas exactas' en los ajustes de la app.")
+                    .setPositiveButton("Ir a ajustes") { _, _ ->
+                        val intent = Intent().apply {
+                            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            data = android.net.Uri.fromParts("package", packageName, null)
+                        }
+                        startActivity(intent)
+                    }
+                    .setNegativeButton("Cancelar", null)
+                    .show()
+            } else {
+                lifecycleScope.launch {
+                    AppDatabase.getInstance(applicationContext).alarmDao().insertAlarm(nuevaAlarma)
+                    Log.d("CrearAlarma", "Alarma guardada: $nuevaAlarma")
+
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        alarmTime.timeInMillis,
+                        pendingIntent
+                    )
+
+                    runOnUiThread {
+                        Toast.makeText(
+                            this@CrearAlarmaActivity,
+                            "Alarma guardada correctamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    }
+                }
+            }
         }
     }
 }
