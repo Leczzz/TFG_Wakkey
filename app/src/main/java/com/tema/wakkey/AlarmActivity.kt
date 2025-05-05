@@ -23,7 +23,7 @@ class AlarmActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnCronometro).setTextColor(Color.parseColor("#808080"))
 
         findViewById<Button>(R.id.btnJuegos).setOnClickListener {
-            startActivity(Intent(this, GamesActivity::class.java))
+            startActivity(Intent(this, JuegosActivity::class.java))
         }
 
     }
