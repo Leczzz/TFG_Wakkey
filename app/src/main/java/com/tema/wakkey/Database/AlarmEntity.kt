@@ -10,14 +10,9 @@ data class AlarmEntity(
     val nombre: String,
     val hora: String, // formato HH:mm
     val idJuego: Int,
-<<<<<<< Updated upstream
     val dificultad: Char, // F=fácil, M=medio, D=difícil
-    val esActivo: Boolean,
-=======
-    val dificultad: Char,
-    val diasActivos: String, // Formato "LMXJVSD" para los días de la semana
     var esActivo: Boolean,
->>>>>>> Stashed changes
+    val diasActivos: String, // Formato "LMXJVSD" para los días de la semana
     val sonido: String
 )
 

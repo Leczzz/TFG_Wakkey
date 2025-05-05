@@ -23,7 +23,8 @@ class AlarmListActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this) //Establece el LinearLayoutManager para el RecyclerView
 
 
-        val db = AppDatabase.getInstance(this) //Obtiene la instancia de la base de datos
+        val db = AppDatabase.getInstance(this)
+        //Obtiene la instancia de la base de datos
         alarmDao = db.alarmDao() //Obtiene el DAO para las alarmas
 
         lifecycleScope.launch { //Ejecuta una corrutina en el ciclo de vida de la actividad

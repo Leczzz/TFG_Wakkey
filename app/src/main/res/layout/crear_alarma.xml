@@ -47,13 +47,9 @@
                     android:id="@+id/etHora"
                     android:layout_width="23dp"
                     android:layout_height="wrap_content"
-<<<<<<< Updated upstream
-                    android:text="06:00"
-=======
                     android:layout_weight="1"
                     android:text="@string/_6"
                     android:textStyle="bold"
->>>>>>> Stashed changes
                     android:textSize="36sp"
                     android:textColor="@color/black"
                     android:inputType="number"

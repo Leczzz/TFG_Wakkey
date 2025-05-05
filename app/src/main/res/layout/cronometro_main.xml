@@ -121,7 +121,7 @@
             android:padding="8dp" />
 
         <Button
-            android:id="@+id/btnPausar"
+            android:id="@+id/btnVuelta"
             android:layout_width="160dp"
             android:layout_height="60dp"
             android:text="@string/vuelta"
@@ -131,8 +131,9 @@
             android:layout_marginStart="16dp"
             android:background="@drawable/border_button" />
 
+
         <Button
-            android:id="@+id/btnReiniciar"
+            android:id="@+id/btnParar"
             android:layout_width="160dp"
             android:layout_height="60dp"
             android:text="@string/parar"

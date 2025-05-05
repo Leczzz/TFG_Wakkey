@@ -2,9 +2,12 @@ package com.tema.wakkey
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.tema.wakkey.Database.AppDatabase
 import com.tema.wakkey.Database.JuegoEntity
 import kotlinx.coroutines.Dispatchers
@@ -16,13 +19,28 @@ class JuegosActivity : AppCompatActivity() {
     private lateinit var adapter: JuegoAdapter
     private lateinit var juegosList: List<JuegoEntity>
 
+    // Inicialización de los elementos de la interfaz de usuario
+    private lateinit var recyclerAlarmas: RecyclerView
+    private lateinit var btnAlarma: Button
+    private lateinit var btnJuegos: Button
+    private lateinit var btnCronometro: Button
+    private lateinit var btnCuentaAtras: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.juegos_main)
 
-        r
+        // Inicializar las vistas
+        recyclerAlarmas = findViewById(R.id.recyclerAlarmas)
+        btnAlarma = findViewById(R.id.btnAlarma)
+        btnJuegos = findViewById(R.id.btnJuegos)
+        btnCronometro = findViewById(R.id.btnCronometro)
+        btnCuentaAtras = findViewById(R.id.btnCuentaAtras)
 
-        // Cargar juegos desde Room
+        // Configurar el RecyclerView
+        recyclerAlarmas.layoutManager = LinearLayoutManager(this)
+
+        // Cargar juegos desde la base de datos
         lifecycleScope.launch {
             val juegos = cargarJuegosDesdeDB()
             juegosList = juegos
@@ -32,12 +50,13 @@ class JuegosActivity : AppCompatActivity() {
             recyclerAlarmas.adapter = adapter
         }
 
+        // Configurar el menú inferior
         configurarMenuInferior()
     }
 
     private suspend fun cargarJuegosDesdeDB(): List<JuegoEntity> {
         return withContext(Dispatchers.IO) {
-            val db = AppDatabase.getDatabase(applicationContext)
+            val db = AppDatabase.getInstance(applicationContext)
             db.juegoDao().getAllJuegos()
         }
     }
@@ -52,14 +71,14 @@ class JuegosActivity : AppCompatActivity() {
             // Puedes añadir más juegos aquí con más condiciones
             else -> {
                 // Opción por defecto
-                // Puedes poner un Toast si aún no está implementado
+                Log.d("JuegosActivity", "Juego no implementado: ${juego.nombre}")
             }
         }
     }
 
     private fun configurarMenuInferior() {
         btnAlarma.setOnClickListener {
-            startActivity(Intent(this, AlarmasActivity::class.java))
+            startActivity(Intent(this, AlarmActivity::class.java))
         }
         btnJuegos.setOnClickListener {
             // Ya estás en esta Activity, no hace nada
@@ -67,8 +86,6 @@ class JuegosActivity : AppCompatActivity() {
         btnCronometro.setOnClickListener {
             startActivity(Intent(this, CronometroActivity::class.java))
         }
-        btnCuentaAtras.setOnClickListener {
-            startActivity(Intent(this, CuentaAtrasActivity::class.java))
-        }
+
     }
 }

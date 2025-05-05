@@ -61,11 +61,7 @@
             android:layout_weight="1"
             android:text="@string/alarma"
             android:textSize="16sp"
-<<<<<<< Updated upstream
-=======
-            android:textStyle="bold"
->>>>>>> Stashed changes
-            android:textColor="#808080"
+            android:textColor="@android:color/white"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null" />
@@ -78,7 +74,7 @@
             android:layout_weight="1"
             android:text="@string/juegos"
             android:textSize="16sp"
-            android:textColor="@android:color/white"
+            android:textColor="#808080"
             android:gravity="center"
             android:backgroundTint="@android:color/transparent"
             android:stateListAnimator="@null" />
