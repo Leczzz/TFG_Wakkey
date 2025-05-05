@@ -29,7 +29,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+<<<<<<< Updated upstream
         setContentView(R.layout.cronometro_main)
+=======
+        setContentView(R.layout.activity_main)
+>>>>>>> Stashed changes
 
 
         //Para clase Cronómetro

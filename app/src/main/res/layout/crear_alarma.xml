@@ -38,21 +38,52 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_marginBottom="24dp">
 
 
                 <EditText
                     android:id="@+id/etHora"
-                    android:layout_width="wrap_content"
+                    android:layout_width="23dp"
                     android:layout_height="wrap_content"
+<<<<<<< Updated upstream
                     android:text="06:00"
+=======
+                    android:layout_weight="1"
+                    android:text="@string/_6"
+                    android:textStyle="bold"
+>>>>>>> Stashed changes
                     android:textSize="36sp"
                     android:textColor="@color/black"
-                    android:layout_gravity="center_horizontal"
-                    android:inputType="time"
+                    android:inputType="number"
                     android:imeOptions="actionDone"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:gravity="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dospuntos"
+                    android:textStyle="bold"
+                    android:textSize="36sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:id="@+id/etMinutos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/_00"
+                    android:textStyle="bold"
+                    android:textSize="36sp"
+                    android:textColor="@color/black"
+                    android:inputType="number"
+                    android:imeOptions="actionDone"
+                    android:maxLines="1"
+                    android:gravity="center"/>
+
             </LinearLayout>
 
             <!-- Nombre alarma -->
@@ -97,6 +128,7 @@
 
             <!-- Dificultad del juego -->
             <TextView
+                android:id="@+id/tvDificultad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dificultad del juego"
@@ -202,6 +234,7 @@
 
             <!-- Sonido alarma -->
             <TextView
+                android:id="@+id/tvSonidoAlarma"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Sonido alarma"

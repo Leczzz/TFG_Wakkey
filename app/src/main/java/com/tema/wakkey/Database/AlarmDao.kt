@@ -15,4 +15,17 @@ interface AlarmDao {
 
     @Update
     suspend fun updateAlarm(alarm: AlarmEntity)
+<<<<<<< Updated upstream
+=======
+
+    @Query("SELECT * FROM alarms ORDER BY hora ASC")
+    suspend fun getAllAlarmsOrderedByHour(): List<AlarmEntity>
+
+    @Query("DELETE FROM alarms")
+    suspend fun deleteAll()
+
+    @Query("SELECT * FROM alarms WHERE id = :id")
+    suspend fun obtenerAlarmaPorId(id: Int): AlarmEntity?
+
+>>>>>>> Stashed changes
 }

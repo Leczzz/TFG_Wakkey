@@ -23,8 +23,19 @@ class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         tvNombreJuego.text = juego.nombre
         tvDescripcion.text = juego.descripcion
 
-        // Configurar visibilidad del spinner según tieneDificultad
+        // Mostrar u ocultar el Spinner según tengaDificultad
         spinnerDificultad.visibility = if (juego.tieneDificultad) View.VISIBLE else View.GONE
+
+        // Asignar logo según el nombre del juego
+        val logoResId = when (juego.nombre) {
+            "Despeina a Kkey" -> R.drawable.despeinakkey
+            "Despierta a Kkey" -> R.drawable.despiertakkey
+            "¡Suma!" -> R.drawable.suma
+            "Scan Kkey" -> R.drawable.scankkey
+            else -> ""
+        }
+
+        ivLogo.setImageResource(logoResId as Int)
 
         btnJugar.setOnClickListener {
             val dificultad = if (juego.tieneDificultad) {
@@ -34,7 +45,8 @@ class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             }
             onJugarClickListener(juego, dificultad)
         }
-
-
     }
+
+
+
 }

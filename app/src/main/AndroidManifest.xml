@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -23,6 +26,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<<<<<<< Updated upstream
+=======
+
+        <!-- Otras actividades -->
+        <activity android:name=".CronometroUIActivity" />
+        <activity android:name=".CrearAlarmaActivity" />
+        <activity android:name=".AlarmListActivity" />
+        <activity android:name=".SumaActivity" />
+        <activity android:name=".DetenerAlarmaActivity"/>
+        <activity android:name="AlarmActivity" />
+        <receiver android:name=".AlarmReceiver" />
+
+
+>>>>>>> Stashed changes
     </application>
 
 </manifest>
