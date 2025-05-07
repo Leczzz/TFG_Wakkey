@@ -25,6 +25,40 @@
     <string name="seleccionar_juego">Seleccionar juego</string>
     <string name="seleccionar_dificultad">Seleccionar juego</string>
     <string name="seleccionar_sonido">Seleccionar juego</string>
+    <string name="ordenar">Ordenar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="_10_00">10:00</string>
+    <string name="nueva_alarma">Nueva Alarma</string>
+    <string name="nombre_alarma">Nombre alarma</string>
+    <string name="alarma_1">Alarma 1</string>
+    <string name="selecciona_dificultad">Seleccionar dificultad</string>
+    <string name="repetir_alarma">Repetir alarma</string>
+    <string name="l">L</string>
+    <string name="m">M</string>
+    <string name="x">X</string>
+    <string name="j">J</string>
+    <string name="v">V</string>
+    <string name="s">S</string>
+    <string name="d">D</string>
+    <string name="sonido_alarma">Sonido alarma</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="anadir">Añadir</string>
+    <string name="_00">00</string>
+    <string name="dospuntos">:</string>
+    <string name="_6">6</string>
+    <string name="resuelve_las_sumas_lo_antes_posible">¡¡Resuelve las sumas lo antes posible!!</string>
+    <string name="_5_00">5:00</string>
+    <string name="insertarnum">___</string>
+    <string name="verificar">Verificar</string>
+    <string name="_5_8_6">5 + 8 + 6 =</string>
+    <string name="hora_actual">Hora actual:</string>
+    <string name="detener_alarma">Detener Alarma</string>
+    <string name="jugar">JUGAR</string>
+    <string name="nombre_del_juego">Nombre del juego</string>
+    <string name="descripci_n_del_juego">Descripción del juego</string>
+    <string name="resuelve_las_restas_lo_antes_posible">¡¡Resuelve las restas lo antes posible!!</string>
+    <string name="_5_6">5 - 6</string>
 
     <string-array name="juegos_array">
         <item>Despeina a Kkey</item>
@@ -35,18 +69,17 @@
     </string-array>
 
     <string-array name="dificultad_array">
-        <item>F - Fácil</item>
-        <item>M - Medio</item>
-        <item>D - Difícil</item>
+        <item>Fácil</item>
+        <item>Medio</item>
+        <item>Difícil</item>
     </string-array>
 
     <string-array name="sonidos_array">
-        <item> Beep Beep</item>
-        <item> Crystal Waters</item>
+        <item>Crystal Waters</item>
         <item>Hawaii</item>
-        <item> Lofi</item>
+        <item>Lofi</item>
         <item>Morning</item>
-        <item> Piano</item>
+        <item>Piano</item>
     </string-array>
 
 

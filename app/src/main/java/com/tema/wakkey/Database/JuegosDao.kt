@@ -18,6 +18,9 @@ interface JuegoDao {
     @Query("SELECT * FROM juegos WHERE id = :id")
     suspend fun getJuegoById(id: Int): JuegoEntity?
 
+    @Query("DELETE FROM juegos")
+    suspend fun deleteAllJuegos()
+
     @Delete
     suspend fun deleteJuego(juego: JuegoEntity)
 

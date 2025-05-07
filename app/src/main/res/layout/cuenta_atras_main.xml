@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/seccionCuentaatras"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <!-- Contenedor principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:layout_marginTop="32dp">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cuenta_atras"
+            android:layout_marginTop="22dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="34sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounder_container"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginBottom="16dp">
+
+            <!-- Display del tiempo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Campo de edición del tiempo (solo editable antes de iniciar) -->
+                <EditText
+                    android:id="@+id/editTiempo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="time"
+                    android:text="@string/_00_00_00"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="56sp"
+                    android:gravity="center"
+                    android:maxLength="8"
+                    android:ems="8"
+                    android:enabled="true" />
+
+            </LinearLayout>
+
+            <!-- Display de hora cuando suene alarma -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Hora de alarma + icono -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txtHoracuentatras"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:text="@string/_10_00"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="25sp" />
+
+                    <ImageView
+                        android:id="@+id/iconoCampana"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:src="@drawable/alarm_icon"
+                        android:contentDescription="@string/alarma" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="30dp">
+
+        <Button
+            android:id="@+id/btnIniciar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/iniciar"
+            android:textStyle="bold"
+            android:background="@drawable/border_button"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:padding="8dp" />
+
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/eliminar"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+        <Button
+            android:id="@+id/btnParar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/parar"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+        <Button
+            android:id="@+id/btnReanudar"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/reanudar"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:layout_marginStart="16dp"
+            android:background="@drawable/border_button" />
+
+    </LinearLayout>
+
+    <!-- Menú inferior -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:background="@color/menu_background">
+
+        <Button
+            android:id="@+id/btnAlarma"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/alarma"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnJuegos"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/juegos"
+            android:textSize="14sp"
+            android:textColor="#808080"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:textStyle="bold"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnCronometro"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="#808080"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="@string/cronometro"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+
+        <Button
+            android:id="@+id/btnCuentaAtras"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cuenta_atras"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:backgroundTint="@android:color/transparent"
+            android:stateListAnimator="@null"
+            android:padding="4dp" />
+    </LinearLayout>
+</LinearLayout>

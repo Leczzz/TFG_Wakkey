@@ -1,10 +1,10 @@
 package com.tema.wakkey
 
-
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.tema.wakkey.Database.JuegoEntity
+
 
 class JuegoAdapter(
     private val juegos: List<JuegoEntity>,
@@ -18,7 +18,8 @@ class JuegoAdapter(
     }
 
     override fun onBindViewHolder(holder: JuegoViewHolder, position: Int) {
-        holder.bind(juegos[position], onJugarClickListener)
+        val juego = juegos[position]
+        holder.bind(juego, onJugarClickListener)
     }
 
     override fun getItemCount(): Int = juegos.size

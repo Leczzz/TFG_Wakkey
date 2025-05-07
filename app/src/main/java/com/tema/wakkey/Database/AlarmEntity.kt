@@ -1,5 +1,6 @@
 package com.tema.wakkey.Database
 
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,8 +10,9 @@ data class AlarmEntity(
     val nombre: String,
     val hora: String, // formato HH:mm
     val idJuego: Int,
-    val dificultad: Char, // F=fácil, M=medio, D=difícil
-    val esActivo: Boolean,
+    val dificultad: String,
+    val diasActivos: String, // Formato "LMXJVSD" para los días de la semana
+    var esActivo: Boolean,
     val sonido: String
 )
 
