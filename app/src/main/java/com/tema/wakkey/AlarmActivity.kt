@@ -57,6 +57,9 @@ class AlarmActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnJuegos).setOnClickListener {
             startActivity(Intent(this, JuegosActivity::class.java))
         }
+        findViewById<Button>(R.id.btnCuentaAtras).setOnClickListener {
+            startActivity(Intent(this, CuentaAtrasActivity::class.java))
+        }
 
         findViewById<Button>(R.id.btnAlarma).setOnClickListener {}
 

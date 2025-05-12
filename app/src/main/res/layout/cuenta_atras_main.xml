@@ -49,8 +49,9 @@
                     android:id="@+id/editTiempo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:inputType="time"
-                    android:text="@string/_00_00_00"
+                    android:inputType="text"
+                    android:digits="0123456789:"
+                    android:hint="HH:MM:SS"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="56sp"
@@ -58,6 +59,7 @@
                     android:maxLength="8"
                     android:ems="8"
                     android:enabled="true" />
+
 
             </LinearLayout>
 

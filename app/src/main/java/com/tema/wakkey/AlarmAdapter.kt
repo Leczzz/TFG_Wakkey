@@ -50,7 +50,8 @@ class AlarmAdapter(
             2 -> "Despierta a Kkey"
             3 -> "Resta!"
             4 -> "Suma!"
-            else -> "Scan Kkey"
+            5 -> "Scan Kkey"
+            else -> "Desactivacion Manual"
         }
     }
 

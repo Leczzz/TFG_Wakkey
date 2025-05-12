@@ -1,12 +1,18 @@
 package com.tema.wakkey
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,11 +26,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+            // Lanza directamente la pantalla de AlarmActivity
+            val intent = Intent(this, AlarmActivity::class.java)
+            startActivity(intent)
+            finish()
+
+
         lifecycleScope.launch {
             // 1) Precarga los juegos predeterminados en la base de datos, reemplazando los existentes
-            val juegoDao = AppDatabase.getInstance(this@MainActivity).juegoDao(
+            val juegoDao = AppDatabase.getInstance(this@MainActivity).juegoDao()
 
-            )
             lifecycleScope.launch {
                 // Borra todos los juegos
                 juegoDao.deleteAllJuegos()
@@ -66,8 +78,6 @@ class MainActivity : AppCompatActivity() {
                 // Inserta todos los juegos
                 pred.forEach { juegoDao.insertJuego(it) }
             }
-
-
         }
 
         // 2) Referencias a botones de navegación
@@ -80,8 +90,10 @@ class MainActivity : AppCompatActivity() {
 
         // 3) Listeners de navegación
         btnAlarma.setOnClickListener {
-            startActivity(Intent(this, AlarmActivity::class.java))
+            val intent = Intent(this, AlarmActivity::class.java)
+            startActivity(intent)
         }
+
 
         btnJuegos.setOnClickListener {
             startActivity(Intent(this, JuegosActivity::class.java))
@@ -123,4 +135,8 @@ class MainActivity : AppCompatActivity() {
             popup.show()
         }
     }
+
+
+
+
 }

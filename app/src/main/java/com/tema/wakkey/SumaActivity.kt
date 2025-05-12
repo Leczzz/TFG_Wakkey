@@ -1,7 +1,6 @@
 package com.tema.wakkey
 
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
@@ -16,8 +15,6 @@ class SumaActivity : AppCompatActivity() {
     private lateinit var preguntas: List<SumaGenerador>
     private var preguntaActual = 0
     private var timer: CountDownTimer? = null
-    private lateinit var mediaPlayer: MediaPlayer
-    private var mediaPlayerInitialized = false  // Nueva bandera de control
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +22,7 @@ class SumaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_suma)
 
         // Recuperamos la dificultad desde el Intent
-        val dificultad = intent.getStringExtra("dificultad") ?: "D"
+        val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorSuma().generarPreguntas(dificultad)
 
         // Verificar si la lista de preguntas está vacía
@@ -41,7 +38,7 @@ class SumaActivity : AppCompatActivity() {
         // Iniciar el temporizador
         iniciarTemporizador()
 
-        // Reproducir sonido
+        // Reproducir sonido usando AlarmSoundPlayer
         val sonidoNombre = intent.getStringExtra("sonido")
         val sonidoResId = when (sonidoNombre) {
             "Crystal Waters" -> R.raw.crystalwaters
@@ -52,10 +49,7 @@ class SumaActivity : AppCompatActivity() {
             else -> R.raw.morning
         }
 
-        mediaPlayer = MediaPlayer.create(this, sonidoResId)
-        mediaPlayer.isLooping = true
-        mediaPlayer.start()
-        mediaPlayerInitialized = true
+        AlarmSoundPlayer.start(this, sonidoResId)
 
         // Acción para verificar la respuesta
         findViewById<Button>(R.id.btnVerificar).setOnClickListener {
@@ -110,37 +104,16 @@ class SumaActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
-
-        // Detener y liberar el MediaPlayer
-        if (mediaPlayerInitialized) {
-            try {
-                if (mediaPlayer.isPlaying) {
-                    mediaPlayer.stop()
-                }
-            } catch (e: IllegalStateException) {
-                e.printStackTrace()
-            } finally {
-                mediaPlayer.release()
-            }
-        }
+        // Detener el sonido cuando la actividad sea destruida
+        AlarmSoundPlayer.stop()
     }
 
     private fun finalizarJuego() {
-        // Detener el temporizador y liberar el MediaPlayer
+        // Detener el temporizador
         timer?.cancel()
 
-        if (mediaPlayerInitialized) {
-            try {
-                if (mediaPlayer.isPlaying) {
-                    mediaPlayer.stop()
-                }
-            } catch (e: IllegalStateException) {
-                e.printStackTrace()
-            } finally {
-                mediaPlayer.release()
-                mediaPlayerInitialized = false
-            }
-        }
+        // Detener el sonido al finalizar el juego
+        AlarmSoundPlayer.stop()
 
         // Iniciar la actividad de la alarma
         val intent = Intent(this, AlarmActivity::class.java)

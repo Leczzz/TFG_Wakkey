@@ -146,6 +146,7 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 "¡Resta!" -> 3
                 "¡Suma!" -> 4
                 "Scan Kkey" -> 5
+                "Desactivar Manualmente" -> 6
                 else -> 0
             }
 

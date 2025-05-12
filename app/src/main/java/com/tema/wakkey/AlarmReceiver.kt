@@ -1,34 +1,51 @@
 package com.tema.wakkey
 
+import android.Manifest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import androidx.annotation.RequiresPermission
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     override fun onReceive(context: Context, intent: Intent) {
-        val sonido = intent.getStringExtra("sonido") ?: "Crystal Waters" // Obtener el sonido
+        val sonido = intent.getStringExtra("sonido") ?: "Crystal Waters"
         val idJuego = intent.getIntExtra("idJuego", 0)
         val dificultad = intent.getStringExtra("dificultad")
 
+        // Log para depuración
         Log.d("AlarmReceiver", "Recibido: idJuego = $idJuego, dificultad = $dificultad, sonido = $sonido")
 
-        // Crear el intent adecuado para el juego
-        val juegoIntent = when (idJuego) {
-            3 -> Intent(context, RestaActivity::class.java) // Actividad para el juego "Suma"
-
-            4 -> Intent(context, SumaActivity::class.java) // Actividad para el juego "Suma"
-
-            else -> Intent(context, DetenerAlarmaActivity::class.java) // Actividad por defecto
+        // Determinar el recurso de sonido
+        val recursoSonido = when (sonido) {
+            "Crystal Waters" -> R.raw.crystalwaters
+            "Hawaii" -> R.raw.hawai
+            "Lofi" -> R.raw.lofi
+            "Morning" -> R.raw.morning
+            "Piano" -> R.raw.piano
+            else -> R.raw.morning  // Valor por defecto si el sonido no está en la lista
         }
 
-        // Pasar los extras de dificultad y sonido al intent
-        juegoIntent.putExtra("dificultad", dificultad)
-        juegoIntent.putExtra("sonido", sonido)
-        juegoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)  // Necesario para iniciar la actividad desde un BroadcastReceiver
+        // Reproducir el sonido de forma global con el singleton
+        AlarmSoundPlayer.start(context, recursoSonido)
 
-        // Iniciar la actividad
-        context.startActivity(juegoIntent)
+        // Determinar la actividad de destino según el juego
+        val actividadDestino = when (idJuego) {
+            3 -> RestaActivity::class.java
+            4 -> SumaActivity::class.java
+            6 -> DetenerAlarmaActivity::class.java
+            else -> MainActivity::class.java
+        }
+
+        // Lanzar la actividad en pantalla completa
+        val fullScreenIntent = Intent(context, actividadDestino).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            putExtra("dificultad", dificultad)
+            putExtra("sonido", sonido)
+        }
+
+        context.startActivity(fullScreenIntent)
     }
 }

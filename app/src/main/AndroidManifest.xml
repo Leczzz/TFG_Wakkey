@@ -1,10 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Permisos necesarios para la aplicación -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -30,20 +32,63 @@
         </activity>
 
         <!-- Otras actividades -->
-        <activity android:name=".JuegosActivity"/>
+        <activity android:name=".JuegosActivity" />
         <activity android:name=".CronometroUIActivity" />
-        <activity android:name=".RestaActivity" />
         <activity android:name=".CrearAlarmaActivity" />
         <activity android:name=".AlarmListActivity" />
         <activity android:name=".JuegoListActivity" />
-        <activity android:name=".SumaActivity" />
-        <activity android:name=".DetenerAlarmaActivity"/>
-        <activity android:name="AlarmActivity" />
+        <activity android:name=".AlarmActivity" />
+        <activity android:name=".CuentaAtrasActivity" />
+
+
+
+        <!-- Receivers -->
         <receiver android:name=".AlarmReceiver" />
 
+        <!-- Actividades de alarma -->
+        <activity
+            android:name=".DetenerAlarmaActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SumaActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".RestaActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+
         <service
-            android:name=".AlarmaSonandoService"
-            android:foregroundServiceType="mediaPlayback" />
+            android:name=".AlarmaSonandoService" />
+
 
     </application>
 

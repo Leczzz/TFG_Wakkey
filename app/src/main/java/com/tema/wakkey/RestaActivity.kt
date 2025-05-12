@@ -22,7 +22,7 @@ class RestaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_resta)
 
         // Recuperar dificultad del intent
-        val dificultad = intent.getStringExtra("dificultad") ?: "D"
+        val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorResta().generarPreguntas(dificultad)
 
         if (preguntas.isEmpty()) {
@@ -33,6 +33,10 @@ class RestaActivity : AppCompatActivity() {
 
         mostrarPreguntaActual()
         iniciarTemporizador()
+
+        // Reproducir sonido al comenzar el juego
+        val sonidoResId = R.raw.morning // Aquí puedes poner cualquier sonido que quieras usar
+        AlarmSoundPlayer.start(this, sonidoResId)
 
         findViewById<Button>(R.id.btnVerificar).setOnClickListener {
             val respuestaTexto = findViewById<EditText>(R.id.tvRespuesta).text.toString()
@@ -83,10 +87,14 @@ class RestaActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
+        // Detener el sonido cuando la actividad sea destruida
+        AlarmSoundPlayer.stop()
     }
 
     private fun finalizarJuego() {
         timer?.cancel()
+        // Detener el sonido al finalizar el juego
+        AlarmSoundPlayer.stop()
 
         val intent = Intent(this, AlarmActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

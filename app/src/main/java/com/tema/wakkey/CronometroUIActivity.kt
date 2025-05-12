@@ -33,6 +33,14 @@ class CronometroUIActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnJuegos).setOnClickListener {
             startActivity(Intent(this, JuegosActivity::class.java))
         }
+        findViewById<Button>(R.id.btnCuentaAtras).setOnClickListener {
+            startActivity(Intent(this, CuentaAtrasActivity::class.java))
+        }
+
+        findViewById<Button>(R.id.btnCronometro).setOnClickListener {
+            startActivity(Intent(this, CronometroUIActivity::class.java))
+        }
+
         txtTiempo = findViewById(R.id.txtTiempo)
         tablaVueltas = findViewById(R.id.tablaVueltas)
 

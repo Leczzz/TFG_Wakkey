@@ -59,8 +59,10 @@
     <string name="descripci_n_del_juego">Descripción del juego</string>
     <string name="resuelve_las_restas_lo_antes_posible">¡¡Resuelve las restas lo antes posible!!</string>
     <string name="_5_6">5 - 6</string>
+    <string name="hora_de_despertarse">¡Hora de despertarse!</string>
 
     <string-array name="juegos_array">
+        <item>Desactivar Manualmente</item>
         <item>Despeina a Kkey</item>
         <item>Despierta a Kkey</item>
         <item>¡Resta!</item>

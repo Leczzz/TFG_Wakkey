@@ -34,6 +34,10 @@ class JuegosActivity : AppCompatActivity() {
             startActivity(Intent(this, AlarmActivity::class.java))
         }
 
+        findViewById<Button>(R.id.btnCuentaAtras).setOnClickListener {
+            startActivity(Intent(this, CuentaAtrasActivity::class.java))
+        }
+
         findViewById<Button>(R.id.btnJuegos).setOnClickListener {}
 
         // Usar una coroutine para obtener los juegos desde la base de datos
@@ -73,11 +77,16 @@ class JuegosActivity : AppCompatActivity() {
                             intent.putExtra("dificultad", dificultadNormalizada)
                             intent
                         }
-                        else -> null
+
+                        else -> {
+                            val intent = Intent(this@JuegosActivity, DetenerAlarmaActivity::class.java)
+                            intent
+                        }
+
                     }
 
                     // Si el intent es válido, iniciar la actividad
-                    intent?.let { startActivity(it) }
+                    intent.let { startActivity(it) }
                 }
 
                 recyclerJuegos.adapter = juegoAdapter
