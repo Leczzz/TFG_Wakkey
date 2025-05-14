@@ -33,6 +33,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // Determinar la actividad de destino según el juego
         val actividadDestino = when (idJuego) {
+            1 -> DespiertaActivity::class.java
             2 -> DespeinaActivity::class.java
             3 -> RestaActivity::class.java
             4 -> SumaActivity::class.java

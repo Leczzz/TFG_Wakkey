@@ -56,6 +56,12 @@ class JuegoListActivity : AppCompatActivity() {
                             intent.putExtra("dificultad", dificultad)
                             startActivity(intent)
                         }
+                        "Despierta a Kkey" -> {
+                            val intent = Intent(this@JuegoListActivity, DespiertaActivity::class.java)
+                            intent.putExtra("juego", juego)
+                            intent.putExtra("dificultad", dificultad)
+                            startActivity(intent)
+                        }
 
                         else -> {
                             Toast.makeText(
