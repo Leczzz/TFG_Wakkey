@@ -62,7 +62,12 @@ class JuegoListActivity : AppCompatActivity() {
                             intent.putExtra("dificultad", dificultad)
                             startActivity(intent)
                         }
-
+                        "Scann Kkey" -> {
+                            val intent = Intent(this@JuegoListActivity, ScanActivity::class.java)
+                            intent.putExtra("juego", juego)
+                            intent.putExtra("dificultad", dificultad)
+                            startActivity(intent)
+                        }
                         else -> {
                             Toast.makeText(
                                 this@JuegoListActivity,

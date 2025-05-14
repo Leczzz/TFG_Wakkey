@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                     JuegoEntity(
                         nombre = "Scan Kkey",
                         descripcion = "Escanéa cualquier código de barras y desactiva la alarma.",
-                        tieneDificultad = true,
+                        tieneDificultad = false,
                         imagenResId = R.drawable.scankkey
                     )
                 )

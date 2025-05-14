@@ -171,6 +171,7 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 }
             }
 
+            // Aquí es donde se inserta tu código para crear el AlarmIntent y PendingIntent
             val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
                 putExtra("sonido", sonido)
                 putExtra("idJuego", idJuego)
@@ -221,6 +222,7 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 
     // Función para convertir los días activos en texto

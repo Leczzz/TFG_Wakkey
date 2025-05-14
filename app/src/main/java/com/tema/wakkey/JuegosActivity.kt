@@ -103,7 +103,10 @@ class JuegosActivity : AppCompatActivity() {
                             intent.putExtra("dificultad", dificultadNormalizada)
                             intent
                         }
-
+                        "Scan Kkey" -> {
+                            val intent = Intent(this@JuegosActivity, ScanActivity::class.java)
+                            intent
+                        }
 
                         else -> {
                             val intent = Intent(this@JuegosActivity, DetenerAlarmaActivity::class.java)

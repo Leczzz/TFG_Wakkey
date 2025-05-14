@@ -62,6 +62,8 @@
     <string name="hora_de_despertarse">¡Hora de despertarse!</string>
     <string name="sopla_en_el_micr_fono_hasta_completar_la_barra">¡¡Sopla en el micrófono hasta completar la barra!!</string>
     <string name="agita_el_m_vil_hasta_despertar_a_kkey">¡¡Agita el móvil hasta despertar a Kkey!!</string>
+    <string name="escanea_el_c_digo_de_barras">Escanea el código de barras</string>
+    <string name="encender_flash">Encender Flash</string>
 
     <string-array name="juegos_array">
         <item>Desactivar Manualmente</item>

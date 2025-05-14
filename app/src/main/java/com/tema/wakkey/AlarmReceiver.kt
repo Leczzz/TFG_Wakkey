@@ -37,6 +37,7 @@ class AlarmReceiver : BroadcastReceiver() {
             2 -> DespeinaActivity::class.java
             3 -> RestaActivity::class.java
             4 -> SumaActivity::class.java
+            5 -> ScanActivity::class.java
             else -> DetenerAlarmaActivity::class.java
 
         }

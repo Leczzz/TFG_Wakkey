@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Permisos necesarios para la aplicación -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -48,17 +50,20 @@
 
         <!-- Actividades de alarma -->
         <activity
+            android:name=".DespiertaActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true" />
+        <activity
             android:name=".DetenerAlarmaActivity"
             android:launchMode="singleTask"
             android:exported="true"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:excludeFromRecents="true" />
+
 
         <activity
             android:name=".SumaActivity"
@@ -66,12 +71,8 @@
             android:exported="true"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:excludeFromRecents="true" />
+
 
         <activity
             android:name=".RestaActivity"
@@ -79,25 +80,8 @@
             android:exported="true"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:excludeFromRecents="true" />
 
-        <activity
-            android:name=".DespiertaActivity"
-            android:launchMode="singleTask"
-            android:exported="true"
-            android:showOnLockScreen="true"
-            android:turnScreenOn="true"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <activity
             android:name=".DespeinaActivity"
@@ -105,12 +89,17 @@
             android:exported="true"
             android:showOnLockScreen="true"
             android:turnScreenOn="true"
-            android:excludeFromRecents="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:excludeFromRecents="true" />
+
+
+        <activity
+            android:name=".ScanActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true" />
+
 
         <!-- Servicio con tipo de foreground especificado -->
         <service
