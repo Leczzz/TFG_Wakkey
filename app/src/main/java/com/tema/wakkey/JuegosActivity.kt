@@ -77,6 +77,21 @@ class JuegosActivity : AppCompatActivity() {
                             intent.putExtra("dificultad", dificultadNormalizada)
                             intent
                         }
+                        "Despeina a Kkey" -> {
+                            val intent = Intent(this@JuegosActivity, DespeinaActivity::class.java)
+
+                            val dificultadNormalizada = when (dificultad) {
+                                "Fácil" -> "F"
+                                "Media" -> "M"
+                                "Difícil" -> "D"
+                                else -> "F"
+                            }
+
+                            intent.putExtra("dificultad", dificultadNormalizada)
+                            intent
+                        }
+
+
 
                         else -> {
                             val intent = Intent(this@JuegosActivity, DetenerAlarmaActivity::class.java)

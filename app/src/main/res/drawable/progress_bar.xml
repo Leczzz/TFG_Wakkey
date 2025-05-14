@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo de la barra de progreso (transparente) -->
+    <item android:id="@android:id/background">
+        <shape xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@android:color/transparent" />
+            <stroke android:width="2dp" android:color="@color/black" />
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+
+    <!-- Relleno de la barra de progreso (líneas negras) -->
+    <item android:id="@android:id/progress">
+        <clip android:gravity="left|top">
+            <shape xmlns:android="http://schemas.android.com/apk/res/android">
+                <solid android:color="@android:color/black" />
+                <corners android:radius="50dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>
+

@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
 
     <application
         android:allowBackup="true"
@@ -39,8 +42,6 @@
         <activity android:name=".JuegoListActivity" />
         <activity android:name=".AlarmActivity" />
         <activity android:name=".CuentaAtrasActivity" />
-
-
 
         <!-- Receivers -->
         <receiver android:name=".AlarmReceiver" />
@@ -86,9 +87,24 @@
         </activity>
 
 
-        <service
-            android:name=".AlarmaSonandoService" />
+        <activity
+            android:name=".DespeinaActivity"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:showOnLockScreen="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <!-- Servicio con tipo de foreground especificado -->
+        <service
+            android:name=".AlarmaSonandoService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
 
     </application>
 

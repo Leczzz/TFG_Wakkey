@@ -46,12 +46,13 @@ class AlarmAdapter(
 
     private fun getNombreJuego(idJuego: Int): String {
         return when (idJuego) {
-            1 -> "Despeina a Kkey"
-            2 -> "Despierta a Kkey"
+            1 -> "Despierta a Kkey"
+            2 -> "Despeina a Kkey"
             3 -> "Resta!"
             4 -> "Suma!"
             5 -> "Scan Kkey"
             else -> "Desactivacion Manual"
+
         }
     }
 

@@ -3,7 +3,6 @@ package com.tema.wakkey
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -21,7 +20,6 @@ import java.util.*
 
 class CrearAlarmaActivity : AppCompatActivity() {
 
-    private lateinit var mediaPlayer: MediaPlayer
     private val handler = Handler(Looper.getMainLooper())
     private var isSpinnerInitialized = false
 
@@ -53,21 +51,16 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 val sonidoSeleccionado = parent?.getItemAtPosition(position).toString()
                 val sonidoResId = sonidosMap[sonidoSeleccionado] ?: return
 
-                if (::mediaPlayer.isInitialized) {
-                    mediaPlayer.stop()
-                    mediaPlayer.release()
-                }
+                // Detener el sonido anterior (si está sonando)
+                AlarmSoundPlayer.stop()
 
-                mediaPlayer = MediaPlayer.create(this@CrearAlarmaActivity, sonidoResId)
-                mediaPlayer.setOnPreparedListener {
-                    it.start()
-                    handler.postDelayed({
-                        if (::mediaPlayer.isInitialized && mediaPlayer.isPlaying) {
-                            mediaPlayer.stop()
-                            mediaPlayer.release()
-                        }
-                    }, 5000)
-                }
+                // Iniciar el nuevo sonido
+                AlarmSoundPlayer.start(this@CrearAlarmaActivity, sonidoResId)
+
+                // Detener el sonido después de 5 segundos
+                handler.postDelayed({
+                    AlarmSoundPlayer.stop()
+                }, 5000)
 
                 handler.removeCallbacksAndMessages(null)
             }
@@ -92,11 +85,17 @@ class CrearAlarmaActivity : AppCompatActivity() {
         val btnAnadir = findViewById<Button>(R.id.btnAnadir)
         val btnCancelar = findViewById<Button>(R.id.btnCancelar)
 
+        // Detener el sonido al presionar "Cancelar"
         btnCancelar.setOnClickListener {
+            AlarmSoundPlayer.stop()
             finish()
         }
 
+        // Detener el sonido y crear la alarma al presionar "Crear Alarma"
         btnAnadir.setOnClickListener {
+            // Detener el sonido antes de realizar cualquier acción
+            AlarmSoundPlayer.stop()
+
             val nombre = etNombre.text.toString().ifBlank { "Alarma sin nombre" }
 
             val horaTexto = etHora.text.toString()
@@ -125,7 +124,6 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 "Difícil" -> "D"
                 else -> "F"
             }
-
 
             // Convertir los días activos en texto
             val diasActivos = getTextoDias(

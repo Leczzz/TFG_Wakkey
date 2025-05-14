@@ -33,10 +33,11 @@ class AlarmReceiver : BroadcastReceiver() {
 
         // Determinar la actividad de destino según el juego
         val actividadDestino = when (idJuego) {
+            2 -> DespeinaActivity::class.java
             3 -> RestaActivity::class.java
             4 -> SumaActivity::class.java
-            6 -> DetenerAlarmaActivity::class.java
-            else -> MainActivity::class.java
+            else -> DetenerAlarmaActivity::class.java
+
         }
 
         // Lanzar la actividad en pantalla completa

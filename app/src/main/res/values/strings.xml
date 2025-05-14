@@ -60,6 +60,7 @@
     <string name="resuelve_las_restas_lo_antes_posible">¡¡Resuelve las restas lo antes posible!!</string>
     <string name="_5_6">5 - 6</string>
     <string name="hora_de_despertarse">¡Hora de despertarse!</string>
+    <string name="sopla_en_el_micr_fono_hasta_completar_la_barra">¡¡Sopla en el micrófono hasta completar la barra!!</string>
 
     <string-array name="juegos_array">
         <item>Desactivar Manualmente</item>

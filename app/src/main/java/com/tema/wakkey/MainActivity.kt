@@ -58,19 +58,19 @@ class MainActivity : AppCompatActivity() {
                     JuegoEntity(
                         nombre = "Despeina a Kkey",
                         descripcion = "Sopla en el micrófono hasta despeinar a Kkey.",
-                        tieneDificultad = false,
+                        tieneDificultad = true,
                         imagenResId = R.drawable.despeinakkey
                     ),
                     JuegoEntity(
                         nombre = "Despierta a Kkey",
                         descripcion = "Despierta a Kkey agitando el móvil y completando la barra.",
-                        tieneDificultad = false,
+                        tieneDificultad = true,
                         imagenResId = R.drawable.despiertakkey
                     ),
                     JuegoEntity(
                         nombre = "Scan Kkey",
                         descripcion = "Escanéa cualquier código de barras y desactiva la alarma.",
-                        tieneDificultad = false,
+                        tieneDificultad = true,
                         imagenResId = R.drawable.scankkey
                     )
                 )
