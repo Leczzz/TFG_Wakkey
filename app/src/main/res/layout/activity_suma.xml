@@ -95,11 +95,12 @@
                 android:background="@drawable/border_button"
                 android:layout_marginTop="16dp"/>
 
+
             <!-- Imagen -->
             <ImageView
                 android:id="@+id/imgGatito"
-                android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
                 android:src="@drawable/sumakkey"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

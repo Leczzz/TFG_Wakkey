@@ -1,6 +1,7 @@
 package com.tema.wakkey
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.*
@@ -11,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.tema.wakkey.despeinakkey.DespeinaConfig
+import com.tema.wakkey.despeinakkey.DespeinaGenerador
 import java.io.File
 import java.io.IOException
 
@@ -23,11 +26,14 @@ class DespeinaActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
 
     private var progress = 0
+    private var incrementoProgreso = 2
+    private var progresoObjetivo = 100
+    private var sensibilidad = 1.0f
+
     private var handler = Handler(Looper.getMainLooper())
     private var updateTask: Runnable? = null
     private var tiempoRestanteMs: Long = 5 * 60 * 1000 // 5 minutos
     private var timer: CountDownTimer? = null
-    private var sonidoDetectado = false
 
     private val REQUEST_RECORD_AUDIO_PERMISSION = 200
     private lateinit var outputFile: File
@@ -41,7 +47,32 @@ class DespeinaActivity : AppCompatActivity() {
         timerTextView = findViewById(R.id.tvTimer)
         imageView = findViewById(R.id.imgGatito)
 
-        // Verificar permisos para grabar audio
+        val dificultad = intent.getStringExtra("dificultad") ?: "F"
+        val sonidoNombre = intent.getStringExtra("sonido")
+
+        // Configuración según dificultad
+        val config: DespeinaConfig = DespeinaGenerador().obtenerConfiguracion(dificultad)
+        incrementoProgreso = when (dificultad) {
+            "F" -> 8
+            "M" -> 4
+            "D" -> 2
+            else -> 8
+        }
+        progresoObjetivo = config.progresoObjetivo
+        sensibilidad = config.sensibilidad
+        progressBar.max = progresoObjetivo
+
+        // Iniciar sonido
+        val sonidoResId = when (sonidoNombre) {
+            "Crystal Waters" -> R.raw.crystalwaters
+            "Hawaii" -> R.raw.hawai
+            "Lofi" -> R.raw.lofi
+            "Morning" -> R.raw.morning
+            "Piano" -> R.raw.piano
+            else -> R.raw.morning
+        }
+        AlarmSoundPlayer.start(this, sonidoResId)
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -50,6 +81,8 @@ class DespeinaActivity : AppCompatActivity() {
                 arrayOf(Manifest.permission.RECORD_AUDIO),
                 REQUEST_RECORD_AUDIO_PERMISSION
             )
+        } else {
+            iniciarJuego()
         }
     }
 
@@ -77,12 +110,12 @@ class DespeinaActivity : AppCompatActivity() {
 
     private fun startRecording() {
         outputFile = File.createTempFile("temp_record", ".3gp", cacheDir)
-
-        recorder = MediaRecorder()
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-        recorder.setOutputFile(outputFile.absolutePath)
+        recorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFile(outputFile.absolutePath)
+        }
 
         try {
             recorder.prepare()
@@ -103,12 +136,10 @@ class DespeinaActivity : AppCompatActivity() {
             override fun run() {
                 try {
                     val maxAmplitude = recorder.maxAmplitude
-                    if (maxAmplitude > 2000) {
-                        sonidoDetectado = true
+                    if (maxAmplitude > 2000 * sensibilidad) {
                         imageView.setImageResource(R.drawable.sinfondoenfadado)
                         aumentarProgreso()
                     } else {
-                        sonidoDetectado = false
                         imageView.setImageResource(R.drawable.kkeysinfondo)
                     }
                 } catch (e: IllegalStateException) {
@@ -121,15 +152,16 @@ class DespeinaActivity : AppCompatActivity() {
     }
 
     private fun aumentarProgreso() {
-        if (progress < 100) {
-            progress += 2
-            progressBar.progress = progress
-            porcentajeTextView.text = "$progress%"
+        if (progress < progresoObjetivo) {
+            progress += incrementoProgreso
+            progressBar.progress = progress.coerceAtMost(progresoObjetivo)
+            val porcentaje = (progress * 100 / progresoObjetivo).coerceAtMost(100)
+            porcentajeTextView.text = "$porcentaje%"
 
-            if (progress >= 100) {
+            if (progress >= progresoObjetivo) {
                 detenerJuego()
                 Toast.makeText(this, "¡Despeinaste a Kkey!", Toast.LENGTH_LONG).show()
-                finish()
+                finalizarJuego()
             }
         }
     }
@@ -139,13 +171,13 @@ class DespeinaActivity : AppCompatActivity() {
             override fun onTick(millisUntilFinished: Long) {
                 val minutos = millisUntilFinished / 60000
                 val segundos = (millisUntilFinished % 60000) / 1000
-                timerTextView.text = String.format("%d:%02d", minutos, segundos)
+                timerTextView.text = String.format("%02d:%02d", minutos, segundos)
             }
 
             override fun onFinish() {
                 detenerJuego()
                 Toast.makeText(this@DespeinaActivity, "Tiempo agotado", Toast.LENGTH_SHORT).show()
-                finish()
+                finalizarJuego()
             }
         }.start()
     }
@@ -159,10 +191,18 @@ class DespeinaActivity : AppCompatActivity() {
             }
         } catch (_: Exception) { }
         timer?.cancel()
+        AlarmSoundPlayer.stop()
     }
 
     override fun onDestroy() {
         super.onDestroy()
         detenerJuego()
+    }
+
+    private fun finalizarJuego() {
+        val intent = Intent(this, AlarmActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 }
