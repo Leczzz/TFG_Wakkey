@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.MediaRecorder
 import android.os.*
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -39,6 +40,13 @@ class DespeinaActivity : AppCompatActivity() {
     private lateinit var outputFile: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        )
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.despeinakkey_main)
 

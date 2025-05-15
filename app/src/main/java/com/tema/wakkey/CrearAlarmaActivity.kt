@@ -202,8 +202,23 @@ class CrearAlarmaActivity : AppCompatActivity() {
                     .show()
             } else {
                 lifecycleScope.launch {
-                    AppDatabase.getInstance(applicationContext).alarmDao().insertAlarm(nuevaAlarma)
-                    Log.d("CrearAlarma", "Alarma guardada: $nuevaAlarma")
+                    val idGenerado = AppDatabase.getInstance(applicationContext).alarmDao().insertAlarm(nuevaAlarma).toInt()
+                    Log.d("CrearAlarma", "Alarma guardada con ID: $idGenerado")
+
+                    // Ahora crea el Intent y PendingIntent PASANDO el idGenerado
+                    val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
+                        putExtra("sonido", sonido)
+                        putExtra("idJuego", idJuego)
+                        putExtra("dificultad", dificultad)
+                        putExtra("idAlarma", idGenerado)
+                    }
+
+                    val pendingIntent = PendingIntent.getBroadcast(
+                        applicationContext,
+                        idGenerado, // requestCode único
+                        alarmIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    )
 
                     alarmManager.setExactAndAllowWhileIdle(
                         AlarmManager.RTC_WAKEUP,
@@ -220,6 +235,8 @@ class CrearAlarmaActivity : AppCompatActivity() {
                         finish()
                     }
                 }
+
+
             }
         }
 

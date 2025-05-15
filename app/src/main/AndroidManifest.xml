@@ -45,8 +45,12 @@
         <activity android:name=".AlarmActivity" />
         <activity android:name=".CuentaAtrasActivity" />
 
+
         <!-- Receivers -->
-        <receiver android:name=".AlarmReceiver" />
+        <receiver
+            android:name=".AlarmReceiver"
+            android:exported="true" />
+
 
         <!-- Actividades de alarma -->
         <activity

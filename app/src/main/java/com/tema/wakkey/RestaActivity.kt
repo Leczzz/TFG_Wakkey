@@ -3,6 +3,7 @@ package com.tema.wakkey
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -18,8 +19,17 @@ class RestaActivity : AppCompatActivity() {
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_resta)
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        )
+
+
 
         // Recuperar dificultad del intent
         val dificultad = intent.getStringExtra("dificultad") ?: "F"

@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface AlarmDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAlarm(alarm: AlarmEntity)
+    suspend fun insertAlarm(alarm: AlarmEntity): Long
 
     @Query("SELECT * FROM alarms")
     suspend fun getAllAlarms(): List<AlarmEntity>

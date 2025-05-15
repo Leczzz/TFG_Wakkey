@@ -1,6 +1,7 @@
 package com.tema.wakkey
 import android.content.Intent
 import android.os.Bundle
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,19 @@ class ScanActivity : AppCompatActivity() {
 
     private var isFlashOn = false  // Controla el estado del flash
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.scankkey_main)  // Usa el layout adecuado
+        setContentView(R.layout.scankkey_main)
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        )
+
+
 
         // Inicia el escaneo al crear la actividad
         startScanning()
@@ -33,7 +44,7 @@ class ScanActivity : AppCompatActivity() {
         integrator.initiateScan()  // Inicia el escaneo
     }
 
-    // Método para encender o apagar el flash
+    // Modo para encender o apagar el flash
     private fun toggleFlash() {
         val integrator = IntentIntegrator(this)
         isFlashOn = !isFlashOn  // Cambia el estado del flash
@@ -43,7 +54,7 @@ class ScanActivity : AppCompatActivity() {
         Toast.makeText(this, "Flash $flashStatus", Toast.LENGTH_SHORT).show()
     }
 
-    // Método que recibe el resultado del escaneo
+    // Modo que recibe el resultado del escaneo
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 

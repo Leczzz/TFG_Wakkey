@@ -47,7 +47,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation (libs.zxing.android.embedded)
-    implementation (libs.androidx.core.ktx.v160)
+    implementation (libs.androidx.core.ktx)
 
     // Dependencias para pruebas
     testImplementation(libs.junit)
