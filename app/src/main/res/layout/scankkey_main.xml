@@ -18,19 +18,12 @@
         android:layout_marginBottom="20dp"
         android:gravity="center">
 
-        <!-- Contenedor del área para escanear -->
-        <FrameLayout
-            android:id="@+id/scannerContainer"
+        <!-- Vista del escáner embebido (sin decorado automático) -->
+        <com.journeyapps.barcodescanner.DecoratedBarcodeView
+            android:id="@+id/barcodeScannerView"
             android:layout_width="match_parent"
-            android:layout_gravity="top"
-            android:layout_height="wrap_content">
-
-            <!-- Área delimitada con bordes -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:background="@drawable/scanner_box" />  <!-- Esto puede ser una caja delimitadora personalizada -->
-        </FrameLayout>
+            android:layout_height="250dp"
+            android:background="@drawable/scanner_box" />
 
         <!-- Texto de instrucciones -->
         <TextView
@@ -42,6 +35,7 @@
             android:gravity="center"
             android:layout_marginTop="20dp" />
 
+        <!-- Botón de flash -->
         <Button
             android:id="@+id/flashButton"
             android:layout_width="wrap_content"
@@ -54,6 +48,4 @@
             android:layout_marginTop="20dp"
             android:layout_gravity="center" />
     </LinearLayout>
-
-
 </LinearLayout>

@@ -1,7 +1,9 @@
 package com.tema.wakkey
 
+import android.app.KeyguardManager
 import android.os.Bundle
 import android.os.Handler
+import android.os.Build
 import android.os.Looper
 import android.view.WindowManager
 import android.widget.Button
@@ -17,15 +19,21 @@ class DetenerAlarmaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) { // API 27+
+            setShowWhenLocked(true)
+            setTurnScreenOn(true)
+            val keyguardManager = getSystemService(KeyguardManager::class.java)
+            keyguardManager?.requestDismissKeyguard(this, null)
+        } else {
+            window.addFlags(
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
+                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
+            )
+        }
         setContentView(R.layout.deteneralarma_activity)
-
-        window.addFlags(
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
-                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
-                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
-        )
-
 
 
         val idAlarma = intent.getIntExtra("idAlarma", -1)

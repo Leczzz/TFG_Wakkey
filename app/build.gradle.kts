@@ -57,9 +57,6 @@ dependencies {
     // Room (con KSP)
     implementation(libs.androidx.room.runtime)
 
-
-    implementation(libs.androidx.room.runtime)
-
     // If this project uses any Kotlin source, use Kotlin Symbol Processing (KSP)
     // See Add the KSP plugin to your project
     ksp(libs.androidx.room.compiler)

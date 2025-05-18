@@ -21,7 +21,7 @@ class RestaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_resta)
+
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -30,7 +30,7 @@ class RestaActivity : AppCompatActivity() {
         )
 
 
-
+        setContentView(R.layout.activity_resta)
         // Recuperar dificultad del intent
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorResta().generarPreguntas(dificultad)

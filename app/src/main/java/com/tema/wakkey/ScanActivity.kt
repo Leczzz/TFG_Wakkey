@@ -1,95 +1,117 @@
 package com.tema.wakkey
+
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.integration.android.IntentIntegrator
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.zxing.ResultPoint
+import com.journeyapps.barcodescanner.*
+import com.journeyapps.barcodescanner.camera.CameraSettings
 
 class ScanActivity : AppCompatActivity() {
 
-    private var isFlashOn = false  // Controla el estado del flash
-
+    private lateinit var barcodeView: DecoratedBarcodeView
+    private var isFlashOn = false
+    private val CAMERA_PERMISSION_CODE = 1001
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.scankkey_main)
+
+
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
+        setContentView(R.layout.scankkey_main)
+        barcodeView = findViewById(R.id.barcodeScannerView)
 
-
-
-        // Inicia el escaneo al crear la actividad
-        startScanning()
-
-        // Configura el botón para encender y apagar el flash
-        val flashButton: Button = findViewById(R.id.flashButton)
+        val flashButton = findViewById<Button>(R.id.flashButton)
         flashButton.setOnClickListener {
-            toggleFlash()
+            isFlashOn = !isFlashOn
+            barcodeView.barcodeView.setTorch(isFlashOn)
+            val estado = if (isFlashOn) "Encendido" else "Apagado"
+            Toast.makeText(this, "Flash $estado", Toast.LENGTH_SHORT).show()
+        }
+
+        checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        } else {
+            startBarcodeScanner()
         }
     }
 
-    private fun startScanning() {
-        val integrator = IntentIntegrator(this)
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)  // Puedes especificar tipos específicos de código de barras
-        integrator.setCameraId(0)  // Usa la cámara trasera (0 es la cámara trasera, 1 es la delantera)
-        integrator.setBeepEnabled(true)  // Habilita el sonido al escanear
-        integrator.setBarcodeImageEnabled(true)  // Habilita la toma de una imagen del código escaneado
-        integrator.initiateScan()  // Inicia el escaneo
+    private fun startBarcodeScanner() {
+        barcodeView.cameraSettings = CameraSettings().apply {
+            requestedCameraId = 0
+        }
+
+        barcodeView.decodeContinuous(object : BarcodeCallback {
+            override fun barcodeResult(result: BarcodeResult?) {
+                result?.text?.let { code ->
+                    Toast.makeText(this@ScanActivity, "Código escaneado: $code", Toast.LENGTH_LONG).show()
+                    AlarmSoundPlayer.stop()
+                    closeAlarmAndReturn()
+                    barcodeView.pause()
+                }
+            }
+
+            override fun possibleResultPoints(resultPoints: MutableList<ResultPoint>?) {}
+        })
     }
 
-    // Modo para encender o apagar el flash
-    private fun toggleFlash() {
-        val integrator = IntentIntegrator(this)
-        isFlashOn = !isFlashOn  // Cambia el estado del flash
-
-        integrator.setTorchEnabled(isFlashOn)  // Activa o desactiva el flash
-        val flashStatus = if (isFlashOn) "Encendido" else "Apagado"
-        Toast.makeText(this, "Flash $flashStatus", Toast.LENGTH_SHORT).show()
-    }
-
-    // Modo que recibe el resultado del escaneo
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Maneja el resultado del escaneo
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-
-        if (result != null) {
-            if (result.contents != null) {
-                // Si se detecta un código de barras, maneja el resultado
-                val barcode = result.contents  // El código de barras escaneado
-                Toast.makeText(this, "Código escaneado: $barcode", Toast.LENGTH_LONG).show()
-
-                // Detener el sonido cuando se termina el escaneo
-                AlarmSoundPlayer.stop()
-
-                // Aquí puedes implementar la lógica para detener la alarma y volver a la actividad de la alarma
-                closeAlarmAndReturn()
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startBarcodeScanner()
             } else {
-                // Si el escaneo no fue exitoso
-                Toast.makeText(this, "Escaneo fallido", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Se requiere permiso de cámara para escanear", Toast.LENGTH_LONG).show()
+                finish()
             }
         }
     }
 
     private fun closeAlarmAndReturn() {
-        // Detener la alarma y regresar a la actividad de la alarma
         val intent = Intent(this, AlarmActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (::barcodeView.isInitialized) {
+            barcodeView.resume()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (::barcodeView.isInitialized) {
+            barcodeView.pause()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        // Detener el sonido cuando la actividad sea destruida
         AlarmSoundPlayer.stop()
     }
 }

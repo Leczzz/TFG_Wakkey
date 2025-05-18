@@ -21,7 +21,7 @@ class SumaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_suma)
+
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -30,6 +30,7 @@ class SumaActivity : AppCompatActivity() {
         )
 
 
+        setContentView(R.layout.activity_suma)
         // Recuperamos la dificultad desde el Intent
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorSuma().generarPreguntas(dificultad)

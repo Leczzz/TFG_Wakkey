@@ -40,7 +40,7 @@ class DespiertaActivity : AppCompatActivity() {
 
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.despiertakkey_main)
+
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -48,7 +48,7 @@ class DespiertaActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
 
-
+        setContentView(R.layout.despiertakkey_main)
 
         progressBar = findViewById(R.id.progresoBarra)
         porcentajeTextView = findViewById(R.id.porcentajeProgreso)

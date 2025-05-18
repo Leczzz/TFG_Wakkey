@@ -28,8 +28,5 @@ object AlarmSoundPlayer {
         mediaPlayer = null
     }
 
-    // Verifica si el sonido está en reproducción
-    fun isPlaying(): Boolean {
-        return mediaPlayer?.isPlaying == true
-    }
+
 }
