@@ -2,39 +2,28 @@ package com.tema.wakkey
 
 import android.app.KeyguardManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Build
-import android.os.Looper
-import android.view.WindowManager
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tema.wakkey.Database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.widget.Button
 
 class DetenerAlarmaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) { // API 27+
-            setShowWhenLocked(true)
-            setTurnScreenOn(true)
-            val keyguardManager = getSystemService(KeyguardManager::class.java)
-            keyguardManager?.requestDismissKeyguard(this, null)
-        } else {
-            window.addFlags(
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
-                        WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
-                        WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON or
-                        WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-            )
-        }
-        setContentView(R.layout.deteneralarma_activity)
+        // Mostrar encima del bloqueo y encender pantalla
+        setShowWhenLocked(true)
+        setTurnScreenOn(true)
 
+        // Desbloquear el keyguard si es posible
+        val keyguardManager = getSystemService(KeyguardManager::class.java)
+        keyguardManager?.requestDismissKeyguard(this, null)
+
+        setContentView(R.layout.deteneralarma_activity)
 
         val idAlarma = intent.getIntExtra("idAlarma", -1)
 
@@ -55,7 +44,6 @@ class DetenerAlarmaActivity : AppCompatActivity() {
                         "Piano" -> R.raw.piano
                         else -> R.raw.morning
                     }
-                    // Aquí usamos el recurso de sonido con AlarmSoundPlayer.start()
                     AlarmSoundPlayer.start(this@DetenerAlarmaActivity, sonidoResId)
                 }
             }
@@ -68,9 +56,7 @@ class DetenerAlarmaActivity : AppCompatActivity() {
 
     private fun detenerSonidoYSalir() {
         AlarmSoundPlayer.stop()
-        Handler(Looper.getMainLooper()).postDelayed({
-            finish()
-        }, 200)
+        finish()
     }
 
     override fun onDestroy() {

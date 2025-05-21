@@ -1,5 +1,6 @@
 package com.tema.wakkey
 
+import android.app.KeyguardManager
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -19,9 +20,9 @@ class SumaActivity : AppCompatActivity() {
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
+        // Encender pantalla y mostrar encima del bloqueo
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -29,26 +30,25 @@ class SumaActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
 
+        // Solicitar desbloqueo de keyguard si es posible
+        val keyguardManager = getSystemService(KeyguardManager::class.java)
+        keyguardManager?.requestDismissKeyguard(this, null)
 
         setContentView(R.layout.activity_suma)
-        // Recuperamos la dificultad desde el Intent
+
+        // Recuperar dificultad del intent
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorSuma().generarPreguntas(dificultad)
 
-        // Verificar si la lista de preguntas está vacía
         if (preguntas.isEmpty()) {
             mostrarMensaje("No se pudieron generar preguntas. Intenta nuevamente.")
             finish()
             return
         }
 
-        // Mostrar la primera pregunta
         mostrarPreguntaActual()
-
-        // Iniciar el temporizador
         iniciarTemporizador()
 
-        // Reproducir sonido usando AlarmSoundPlayer
         val sonidoNombre = intent.getStringExtra("sonido")
         val sonidoResId = when (sonidoNombre) {
             "Crystal Waters" -> R.raw.crystalwaters
@@ -61,12 +61,10 @@ class SumaActivity : AppCompatActivity() {
 
         AlarmSoundPlayer.start(this, sonidoResId)
 
-        // Acción para verificar la respuesta
         findViewById<Button>(R.id.btnVerificar).setOnClickListener {
             val respuestaTexto = findViewById<EditText>(R.id.tvRespuesta).text.toString()
             val respuesta = respuestaTexto.toIntOrNull()
 
-            // Comprobar si la respuesta es correcta
             if (respuesta == preguntas[preguntaActual].resultado) {
                 preguntaActual++
                 if (preguntaActual < preguntas.size) {
@@ -82,16 +80,14 @@ class SumaActivity : AppCompatActivity() {
     }
 
     private fun mostrarPreguntaActual() {
-        // Mostrar la pregunta actual en la vista
         if (preguntaActual < preguntas.size) {
             val pregunta = preguntas[preguntaActual]
             findViewById<TextView>(R.id.tvSuma).text = "${pregunta.enunciado} ="
-            findViewById<EditText>(R.id.tvRespuesta).setText("") // Limpiar el campo de respuesta
+            findViewById<EditText>(R.id.tvRespuesta).setText("")
         }
     }
 
     private fun iniciarTemporizador() {
-        // Iniciar un temporizador de cuenta regresiva de 5 minutos
         timer = object : CountDownTimer(tiempoLimite, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minutos = millisUntilFinished / 60000
@@ -114,21 +110,14 @@ class SumaActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
-        // Detener el sonido cuando la actividad sea destruida
         AlarmSoundPlayer.stop()
     }
 
     private fun finalizarJuego() {
-        // Detener el temporizador
         timer?.cancel()
-
-        // Detener el sonido al finalizar el juego
         AlarmSoundPlayer.stop()
-
-        // Iniciar la actividad de la alarma
-        val intent = Intent(this, AlarmActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
         finish()
     }
+
+
 }

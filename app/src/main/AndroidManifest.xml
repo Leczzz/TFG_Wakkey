@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
@@ -57,15 +58,17 @@
         <activity
             android:name=".DespiertaActivity"
             android:exported="true"
-            android:launchMode="singleTask"
             android:excludeFromRecents="true"
             />
-        <activity
-            android:name=".DetenerAlarmaActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+
+        <activity android:name=".DetenerAlarmaActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
-            />
+           />
+
+
+
 
         <activity
             android:name=".SumaActivity"
@@ -97,11 +100,7 @@
 
             />
 
-        <!-- Servicio con tipo de foreground especificado -->
-        <service
-            android:name=".AlarmaSonandoService"
-            android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
+
 
     </application>
 

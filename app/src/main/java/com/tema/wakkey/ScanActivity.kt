@@ -1,7 +1,6 @@
 package com.tema.wakkey
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.WindowManager
@@ -23,16 +22,18 @@ class ScanActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        // Mantener pantalla encendida y sobre la pantalla de bloqueo
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
                     WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
+
         setContentView(R.layout.scankkey_main)
         barcodeView = findViewById(R.id.barcodeScannerView)
 
+        // Configurar botón de flash
         val flashButton = findViewById<Button>(R.id.flashButton)
         flashButton.setOnClickListener {
             isFlashOn = !isFlashOn
@@ -40,6 +41,20 @@ class ScanActivity : AppCompatActivity() {
             val estado = if (isFlashOn) "Encendido" else "Apagado"
             Toast.makeText(this, "Flash $estado", Toast.LENGTH_SHORT).show()
         }
+
+        // Obtener sonido del intent
+        val sonidoNombre = intent.getStringExtra("sonido")
+        val sonidoResId = when (sonidoNombre) {
+            "Crystal Waters" -> R.raw.crystalwaters
+            "Hawaii" -> R.raw.hawai
+            "Lofi" -> R.raw.lofi
+            "Morning" -> R.raw.morning
+            "Piano" -> R.raw.piano
+            else -> R.raw.morning
+        }
+
+        // Iniciar sonido
+        AlarmSoundPlayer.start(this, sonidoResId)
 
         checkCameraPermission()
     }
@@ -56,21 +71,25 @@ class ScanActivity : AppCompatActivity() {
 
     private fun startBarcodeScanner() {
         barcodeView.cameraSettings = CameraSettings().apply {
-            requestedCameraId = 0
+            requestedCameraId = 0 // Cámara trasera
         }
 
         barcodeView.decodeContinuous(object : BarcodeCallback {
             override fun barcodeResult(result: BarcodeResult?) {
                 result?.text?.let { code ->
                     Toast.makeText(this@ScanActivity, "Código escaneado: $code", Toast.LENGTH_LONG).show()
-                    AlarmSoundPlayer.stop()
-                    closeAlarmAndReturn()
+                    finalizarJuego()
                     barcodeView.pause()
                 }
             }
 
             override fun possibleResultPoints(resultPoints: MutableList<ResultPoint>?) {}
         })
+    }
+
+    private fun finalizarJuego() {
+        AlarmSoundPlayer.stop()
+        finish()
     }
 
     override fun onRequestPermissionsResult(
@@ -87,13 +106,6 @@ class ScanActivity : AppCompatActivity() {
                 finish()
             }
         }
-    }
-
-    private fun closeAlarmAndReturn() {
-        val intent = Intent(this, AlarmActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        finish()
     }
 
     override fun onResume() {

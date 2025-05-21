@@ -1,6 +1,6 @@
 package com.tema.wakkey
 
-import android.content.Intent
+import android.app.KeyguardManager
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
@@ -19,9 +19,9 @@ class RestaActivity : AppCompatActivity() {
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
 
+        // Encender pantalla y mostrar encima del bloqueo
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -29,8 +29,12 @@ class RestaActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
 
+        // Solicitar desbloqueo si es posible
+        val keyguardManager = getSystemService(KeyguardManager::class.java)
+        keyguardManager?.requestDismissKeyguard(this, null)
 
         setContentView(R.layout.activity_resta)
+
         // Recuperar dificultad del intent
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
         preguntas = GeneradorResta().generarPreguntas(dificultad)
@@ -44,8 +48,16 @@ class RestaActivity : AppCompatActivity() {
         mostrarPreguntaActual()
         iniciarTemporizador()
 
-        // Reproducir sonido al comenzar el juego
-        val sonidoResId = R.raw.morning // Aquí puedes poner cualquier sonido que quieras usar
+        // Reproducir sonido recibido por intent
+        val sonidoNombre = intent.getStringExtra("sonido")
+        val sonidoResId = when (sonidoNombre) {
+            "Crystal Waters" -> R.raw.crystalwaters
+            "Hawaii" -> R.raw.hawai
+            "Lofi" -> R.raw.lofi
+            "Morning" -> R.raw.morning
+            "Piano" -> R.raw.piano
+            else -> R.raw.morning
+        }
         AlarmSoundPlayer.start(this, sonidoResId)
 
         findViewById<Button>(R.id.btnVerificar).setOnClickListener {
@@ -97,18 +109,12 @@ class RestaActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()
-        // Detener el sonido cuando la actividad sea destruida
         AlarmSoundPlayer.stop()
     }
 
     private fun finalizarJuego() {
         timer?.cancel()
-        // Detener el sonido al finalizar el juego
         AlarmSoundPlayer.stop()
-
-        val intent = Intent(this, AlarmActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
         finish()
     }
 }
