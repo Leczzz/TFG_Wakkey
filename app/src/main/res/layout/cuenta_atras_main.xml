@@ -44,21 +44,71 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <!-- Campo de edición del tiempo (solo editable antes de iniciar) -->
-                <EditText
-                    android:id="@+id/editTiempo"
-                    android:layout_width="wrap_content"
+                 <!-- Hora editable con formato hh:mm:ss -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:digits="0123456789:"
-                    android:hint="HH:MM:SS"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="56sp"
+                    android:orientation="horizontal"
                     android:gravity="center"
-                    android:maxLength="8"
-                    android:ems="8"
-                    android:enabled="true" />
+                    android:layout_marginBottom="24dp">
+
+                    <EditText
+                        android:id="@+id/etHoras"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="hh"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"/>
+
+                    <EditText
+                        android:id="@+id/etMinutos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="mm"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:gravity="center"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:layout_gravity="center"/>
+
+                    <EditText
+                        android:id="@+id/etSegundos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="ss"
+                        android:textStyle="bold"
+                        android:textSize="28sp"
+                        android:textColor="@color/black"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:gravity="center"/>
+                </LinearLayout>
 
 
             </LinearLayout>

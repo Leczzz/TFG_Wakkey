@@ -1,21 +1,18 @@
 package com.tema.wakkey
 
 import android.content.Intent
-import android.os.CountDownTimer
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
+import android.os.CountDownTimer
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.jvm.java
 
 class CuentaAtrasActivity : AppCompatActivity() {
 
-    private lateinit var editTiempo: EditText
+    private lateinit var etHoras: EditText
+    private lateinit var etMinutos: EditText
+    private lateinit var etSegundos: EditText
     private lateinit var btnIniciar: Button
     private lateinit var btnEliminar: Button
     private lateinit var btnParar: Button
@@ -23,20 +20,25 @@ class CuentaAtrasActivity : AppCompatActivity() {
     private lateinit var txtHoraCuentaAtras: TextView
     private lateinit var iconoCampana: ImageView
 
-    private var timer: CountDownTimer? = null
-    private var tiempoRestante: Long = 0
-    private var isRunning = false
-    private var isPaused = false
     private lateinit var btnCronometro: Button
     private lateinit var btnJuegos: Button
     private lateinit var btnAlarmas: Button
     private lateinit var btnCuentaAtras: Button
 
+    private var timer: CountDownTimer? = null
+    private var tiempoRestante: Long = 0
+    private var isRunning = false
+    private var isPaused = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.cuenta_atras_main)
 
-        editTiempo = findViewById(R.id.editTiempo)
+        // Referencias a los EditText individuales
+        etHoras = findViewById(R.id.etHoras)
+        etMinutos = findViewById(R.id.etMinutos)
+        etSegundos = findViewById(R.id.etSegundos)
+
         btnIniciar = findViewById(R.id.btnIniciar)
         btnEliminar = findViewById(R.id.btnEliminar)
         btnParar = findViewById(R.id.btnParar)
@@ -44,78 +46,65 @@ class CuentaAtrasActivity : AppCompatActivity() {
         txtHoraCuentaAtras = findViewById(R.id.txtHoracuentatras)
         iconoCampana = findViewById(R.id.iconoCampana)
 
+        btnCronometro = findViewById(R.id.btnCronometro)
+        btnJuegos = findViewById(R.id.btnJuegos)
+        btnAlarmas = findViewById(R.id.btnAlarma)
+        btnCuentaAtras = findViewById(R.id.btnCuentaAtras)
 
+        btnCronometro.setOnClickListener {
+            startActivity(Intent(this, CronometroUIActivity::class.java))
+        }
 
-            // Inicialización de los botones
-            btnCronometro = findViewById(R.id.btnCronometro)
-            btnJuegos = findViewById(R.id.btnJuegos)
-            btnAlarmas = findViewById(R.id.btnAlarma)
-            btnCuentaAtras = findViewById(R.id.btnCuentaAtras)
+        btnJuegos.setOnClickListener {
+            startActivity(Intent(this, JuegosActivity::class.java))
+        }
 
-            // Configuración de los botones para redirigir a las demás actividades
-            btnCronometro.setOnClickListener {
-                // Redirige a la actividad del cronómetro
-                startActivity(Intent(this, CronometroUIActivity::class.java))
-            }
+        btnAlarmas.setOnClickListener {
+            startActivity(Intent(this, AlarmActivity::class.java))
+        }
 
-            btnJuegos.setOnClickListener {
-                // Redirige a la actividad de juegos
-                startActivity(Intent(this, JuegosActivity::class.java))
-            }
+        btnCuentaAtras.setOnClickListener {
+            startActivity(Intent(this, CuentaAtrasActivity::class.java))
+        }
 
-            btnAlarmas.setOnClickListener {
-                // Redirige a la actividad de alarmas
-                startActivity(Intent(this, AlarmActivity::class.java))
-            }
-
-            btnCuentaAtras.setOnClickListener {
-                // Redirige a la actividad de cuenta atrás
-                startActivity(Intent(this, CuentaAtrasActivity::class.java))
-            }
         btnIniciar.setOnClickListener {
-            val tiempo = editTiempo.text.toString()
-            if (tiempo.isNotEmpty()) {
-                val partes = tiempo.split(":")
-                if (partes.size == 2 || partes.size == 3) {
-                    val horas = partes[0].toIntOrNull() ?: 0
-                    val minutos = partes[1].toIntOrNull() ?: 0
-                    val segundos = if (partes.size == 3) partes[2].toIntOrNull() ?: 0 else 0
+            val horas = etHoras.text.toString().toIntOrNull() ?: 0
+            val minutos = etMinutos.text.toString().toIntOrNull() ?: 0
+            val segundos = etSegundos.text.toString().toIntOrNull() ?: 0
 
-                    tiempoRestante = ((horas * 3600 + minutos * 60 + segundos) * 1000).toLong()
-
-                    iniciarCuentaAtras()
-                } else {
-                    Toast.makeText(this, "Formato incorrecto", Toast.LENGTH_SHORT).show()
-                }
+            if (horas == 0 && minutos == 0 && segundos == 0) {
+                Toast.makeText(this, "Introduce un tiempo válido", Toast.LENGTH_SHORT).show()
+            } else {
+                tiempoRestante = ((horas * 3600 + minutos * 60 + segundos) * 1000).toLong()
+                iniciarCuentaAtras()
             }
         }
 
         btnEliminar.setOnClickListener {
-            // Detener el temporizador si está corriendo
             if (isRunning) {
                 timer?.cancel()
                 isRunning = false
                 isPaused = false
             }
 
-            // Restablecer el tiempo a cero y actualizar la vista
             tiempoRestante = 0
             actualizarTiempoRestante()
 
-            // Volver a habilitar el EditText para permitir al usuario ingresar un nuevo tiempo
-            editTiempo.isEnabled = true
-            editTiempo.text.clear()  // Limpiar el campo de texto
+            etHoras.setText("")
+            etMinutos.setText("")
+            etSegundos.setText("")
 
-            // Volver a la configuración predeterminada de botones
+            etHoras.isEnabled = true
+            etMinutos.isEnabled = true
+            etSegundos.isEnabled = true
+
             btnIniciar.visibility = Button.VISIBLE
             btnEliminar.visibility = Button.GONE
             btnParar.visibility = Button.GONE
             btnReanudar.visibility = Button.GONE
 
-            // Limpiar el texto de la hora final
             txtHoraCuentaAtras.text = ""
         }
-
 
         btnParar.setOnClickListener {
             detenerCuentaAtras()
@@ -125,17 +114,15 @@ class CuentaAtrasActivity : AppCompatActivity() {
             reanudarCuentaAtras()
         }
     }
+
     override fun onResume() {
         super.onResume()
-
-        // Si el temporizador no está corriendo, mostramos el botón "Iniciar" y ocultamos los demás
         if (!isRunning) {
             btnIniciar.visibility = Button.VISIBLE
             btnEliminar.visibility = Button.GONE
             btnParar.visibility = Button.GONE
             btnReanudar.visibility = Button.GONE
         } else {
-            // Si el temporizador está corriendo, ocultamos el botón "Iniciar" y mostramos los demás
             btnIniciar.visibility = Button.GONE
             btnEliminar.visibility = Button.VISIBLE
             btnParar.visibility = Button.VISIBLE
@@ -153,23 +140,19 @@ class CuentaAtrasActivity : AppCompatActivity() {
             override fun onFinish() {
                 Toast.makeText(this@CuentaAtrasActivity, "¡Tiempo agotado!", Toast.LENGTH_SHORT).show()
                 detenerCuentaAtras()
-
-                // Llamar a la actividad DesactivarActivity cuando termine el contador
-                val intent = Intent(this@CuentaAtrasActivity, DetenerAlarmaActivity::class.java)
-                startActivity(intent)
-
+                startActivity(Intent(this@CuentaAtrasActivity, DetenerAlarmaActivity::class.java))
             }
-
         }
+
         timer?.start()
         isRunning = true
         isPaused = false
+
         btnIniciar.visibility = Button.GONE
         btnEliminar.visibility = Button.VISIBLE
         btnParar.visibility = Button.VISIBLE
         btnReanudar.visibility = Button.GONE
 
-        // Mostrar la hora a la que va a sonar la cuenta atrás
         mostrarHoraFinal()
     }
 
@@ -177,17 +160,16 @@ class CuentaAtrasActivity : AppCompatActivity() {
         timer?.cancel()
         isRunning = false
         isPaused = true
+
         btnIniciar.visibility = Button.GONE
         btnEliminar.visibility = Button.GONE
         btnParar.visibility = Button.GONE
         btnReanudar.visibility = Button.VISIBLE
 
-        // Mostrar la hora a la que va a sonar la cuenta atrás al detener
         mostrarHoraFinal()
     }
 
     private fun reanudarCuentaAtras() {
-        // Reanudar el contador
         iniciarCuentaAtras()
     }
 
@@ -196,23 +178,18 @@ class CuentaAtrasActivity : AppCompatActivity() {
         val minutos = (tiempoRestante / 1000 % 3600) / 60
         val segundos = (tiempoRestante / 1000 % 60)
 
-        val tiempoFormateado = String.format("%02d:%02d:%02d", horas, minutos, segundos)
-        editTiempo.setText(tiempoFormateado)
+        etHoras.setText(String.format("%02d", horas))
+        etMinutos.setText(String.format("%02d", minutos))
+        etSegundos.setText(String.format("%02d", segundos))
     }
 
     private fun mostrarHoraFinal() {
-        // Obtener la hora actual
         val calendario = Calendar.getInstance()
         calendario.timeInMillis = System.currentTimeMillis()
-
-        // Sumar el tiempo restante
         calendario.add(Calendar.MILLISECOND, tiempoRestante.toInt())
 
-        // Formatear la hora de la cuenta atrás
         val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
         val horaFinal = sdf.format(calendario.time)
-
-        // Mostrar la hora final en el TextView
-        txtHoraCuentaAtras.text = "$horaFinal"
+        txtHoraCuentaAtras.text = horaFinal
     }
 }
