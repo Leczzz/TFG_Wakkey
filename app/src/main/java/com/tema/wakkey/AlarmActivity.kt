@@ -18,13 +18,13 @@ import com.tema.wakkey.Database.AppDatabase
 import kotlinx.coroutines.launch
 
 class AlarmActivity : AppCompatActivity() {
-    private lateinit var alarmDao: AlarmDao
-    private lateinit var adapter: AlarmAdapter
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var alarmDao: AlarmDao // DAO para las alarmas
+    private lateinit var adapter: AlarmAdapter // Adaptador para el RecyclerView
+    private lateinit var recyclerView: RecyclerView // RecyclerView para mostrar las alarmas
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        super.onCreate(savedInstanceState) // Llama al onCreate de la superclase
+        setContentView(R.layout.activity_main) // Establece la vista de la actividad
 
         // 1. Inicializar base de datos y DAO primero
         val db = AppDatabase.getInstance(this)
@@ -91,11 +91,13 @@ class AlarmActivity : AppCompatActivity() {
 
     }
 
+
     override fun onResume() {
         super.onResume()
         cargarAlarmas()
     }
 
+    // Metodo para cargar las alarmas desde la base de datos
     private fun cargarAlarmas() {
         lifecycleScope.launch {
             try {
@@ -108,6 +110,7 @@ class AlarmActivity : AppCompatActivity() {
         }
     }
 
+    // Metodo para ordenar las alarmas
     private fun ordenarAlarmas() {
         lifecycleScope.launch {
             try {
@@ -119,6 +122,7 @@ class AlarmActivity : AppCompatActivity() {
         }
     }
 
+    // Metodo para mostrar el dialogo de confirmacion
     private fun mostrarDialogoConfirmacion() {
         AlertDialog.Builder(this)
             .setTitle("Eliminar todas las alarmas")
@@ -137,11 +141,13 @@ class AlarmActivity : AppCompatActivity() {
             .show()
     }
 
+    // Crear el menú de opciones
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_opciones, menu)
         return true
     }
 
+    // Manejar la seleccion de elementos del menú
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.opcion_ordenar -> {

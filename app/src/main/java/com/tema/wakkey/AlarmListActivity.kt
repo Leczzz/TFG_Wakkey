@@ -9,11 +9,12 @@ import com.tema.wakkey.Database.AlarmDao
 import com.tema.wakkey.Database.AppDatabase
 import kotlinx.coroutines.launch
 
+//Esta actividad muestra una lista de alarmas almacenadas en la base de datos usando un RecyclerView.
 class AlarmListActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: AlarmAdapter
-    private lateinit var alarmDao: AlarmDao
+    private lateinit var recyclerView: RecyclerView // RecyclerView para mostrar las alarmas
+    private lateinit var adapter: AlarmAdapter // Adaptador para el RecyclerView
+    private lateinit var alarmDao: AlarmDao // DAO para las alarmas
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,8 +23,8 @@ class AlarmListActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerAlarmas) // Encuentra el RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this) // Configura el LayoutManager
 
-        val db = AppDatabase.getInstance(this)
-        alarmDao = db.alarmDao()
+        val db = AppDatabase.getInstance(this) // Obtiene la instancia de la base de datos
+        alarmDao = db.alarmDao() // Obtiene el DAO para las alarmas
 
         lifecycleScope.launch {
             // Obtén las alarmas de la base de datos

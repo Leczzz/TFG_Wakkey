@@ -8,16 +8,18 @@ import com.tema.wakkey.Database.AlarmEntity
 
 
 class AlarmAdapter(
-    private val alarmas: MutableList<AlarmEntity>,
-    private val onToggle: (AlarmEntity, Boolean) -> Unit
-) : RecyclerView.Adapter<AlarmViewHolder>() {
+    private val alarmas: MutableList<AlarmEntity>, // Lista de alarmas
+    private val onToggle: (AlarmEntity, Boolean) -> Unit // Callback para el cambio de estado del Switch
+) : RecyclerView.Adapter<AlarmViewHolder>() { // Adaptador para el RecyclerView de alarmas
 
+    // Crear una nueva vista
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlarmViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_alarm, parent, false)
         return AlarmViewHolder(view)
     }
 
+    // Enlazar datos a una vista
     override fun onBindViewHolder(holder: AlarmViewHolder, position: Int) {
         val alarma = alarmas[position]
 
@@ -33,8 +35,9 @@ class AlarmAdapter(
         }
     }
 
-    override fun getItemCount(): Int = alarmas.size
+    override fun getItemCount(): Int = alarmas.size // Cantidad de elementos en la lista
 
+    // Actualizar la lista de alarmas
     fun actualizarLista(nuevaLista: List<AlarmEntity>) {
         val diffCallback = AlarmDiffCallback(alarmas, nuevaLista)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -44,7 +47,8 @@ class AlarmAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
-    private fun getNombreJuego(idJuego: Int): String {
+
+    private fun getNombreJuego(idJuego: Int): String { //Coge en base al ID del juego el nombre
         return when (idJuego) {
             1 -> "Despierta a Kkey"
             2 -> "Despeina a Kkey"
@@ -56,14 +60,14 @@ class AlarmAdapter(
         }
     }
 
-    private fun getTextoDias(diasActivos: String): String {
+    private fun getTextoDias(diasActivos: String): String { //Coge en base a los dias activos el texto
         val dias = listOf("L", "M", "X", "J", "V", "S", "D")
         return diasActivos.mapIndexedNotNull { index, c ->
             if (c == '1') dias[index] else null
         }.joinToString(" ")
     }
 
-    private fun onSwitchToggle(alarma: AlarmEntity, isChecked: Boolean) {
+    private fun onSwitchToggle(alarma: AlarmEntity, isChecked: Boolean) { // Callback para el cambio de estado del Switch
         onToggle(alarma, isChecked)
     }
 }

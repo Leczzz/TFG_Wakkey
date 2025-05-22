@@ -1,25 +1,18 @@
 package com.tema.wakkey
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
+
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.PopupMenu
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.tema.wakkey.Database.AppDatabase
 import com.tema.wakkey.Database.JuegoEntity
 import kotlinx.coroutines.launch
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad principal.
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

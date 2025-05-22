@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -18,17 +17,18 @@ import com.tema.wakkey.Database.AppDatabase
 import kotlinx.coroutines.launch
 import java.util.*
 
+//Esta clase sirve para crear una nueva alarma
 class CrearAlarmaActivity : AppCompatActivity() {
 
-    private val handler = Handler(Looper.getMainLooper())
-    private var isSpinnerInitialized = false
+    private val handler = Handler(Looper.getMainLooper()) // Manejador de mensajes
+    private var isSpinnerInitialized = false // Bandera para verificar si el Spinner se ha inicializado
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.crear_alarma)
+    override fun onCreate(savedInstanceState: Bundle?) { // Crea la actividad
+        super.onCreate(savedInstanceState) // Llama al onCreate de la superclase
+        setContentView(R.layout.crear_alarma) // Establece la vista de la actividad
 
-        val spinnerSonido = findViewById<Spinner>(R.id.spinnerSonido)
-        val sonidosMap = mapOf(
+        val spinnerSonido = findViewById<Spinner>(R.id.spinnerSonido) // Spinner para seleccionar el sonido
+        val sonidosMap = mapOf( // Mapeo de sonidos con sus respectivos recursos
             "Crystal Waters" to R.raw.crystalwaters,
             "Hawaii" to R.raw.hawai,
             "Lofi" to R.raw.lofi,
@@ -36,38 +36,35 @@ class CrearAlarmaActivity : AppCompatActivity() {
             "Piano" to R.raw.piano
         )
 
-        spinnerSonido.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
+        spinnerSonido.onItemSelectedListener = object : AdapterView.OnItemSelectedListener { // Escuchador para el Spinner
+            override fun onItemSelected( // Maneja la selección de un elemento
+                parent: AdapterView<*>?, // Vista del spinner
+                view: View?, // Vista de la selección
+                position: Int, // Posición del elemento seleccionado
+                id: Long // Id del elemento seleccionado
             ) {
-                if (!isSpinnerInitialized) {
+                if (!isSpinnerInitialized) { // Si el Spinner no se ha inicializado, lo inicializa
                     isSpinnerInitialized = true
                     return
                 }
 
-                val sonidoSeleccionado = parent?.getItemAtPosition(position).toString()
-                val sonidoResId = sonidosMap[sonidoSeleccionado] ?: return
+                val sonidoSeleccionado = parent?.getItemAtPosition(position).toString() // Obtiene el sonido seleccionado
+                val sonidoResId = sonidosMap[sonidoSeleccionado] ?: return // Obtiene el recurso de sonido correspondiente
 
-                // Detener el sonido anterior (si está sonando)
-                AlarmSoundPlayer.stop()
+                AlarmSoundPlayer.stop() // Para cualquier sonido que pueda estar reproduciendo
+                AlarmSoundPlayer.start(this@CrearAlarmaActivity, sonidoResId) // Reproduce el sonido seleccionado
 
-                // Iniciar el nuevo sonido
-                AlarmSoundPlayer.start(this@CrearAlarmaActivity, sonidoResId)
-
-                // Detener el sonido después de 5 segundos
-                handler.postDelayed({
-                    AlarmSoundPlayer.stop()
+                handler.postDelayed({ // Despues de 5 segundos, para el sonido
+                    AlarmSoundPlayer.stop() //Llama al metodo stop para parar el sonido
                 }, 5000)
 
-                handler.removeCallbacksAndMessages(null)
+                handler.removeCallbacksAndMessages(null) // Elimina cualquier mensaje en cola
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+            override fun onNothingSelected(parent: AdapterView<*>) {} // Maneja la ausencia de selección
         }
 
+        // Variables
         val etNombre = findViewById<EditText>(R.id.etNombreAlarma)
         val etHora = findViewById<EditText>(R.id.etHora)
         val etMinutos = findViewById<EditText>(R.id.etMinutos)
@@ -85,26 +82,21 @@ class CrearAlarmaActivity : AppCompatActivity() {
         val btnAnadir = findViewById<Button>(R.id.btnAnadir)
         val btnCancelar = findViewById<Button>(R.id.btnCancelar)
 
-        // Detener el sonido al presionar "Cancelar"
-        btnCancelar.setOnClickListener {
+        btnCancelar.setOnClickListener { // Maneja el clic en el botón de cancelar
             AlarmSoundPlayer.stop()
             finish()
         }
 
-        // Detener el sonido y crear la alarma al presionar "Crear Alarma"
-        btnAnadir.setOnClickListener {
-            // Detener el sonido antes de realizar cualquier acción
-            AlarmSoundPlayer.stop()
+        btnAnadir.setOnClickListener { // Maneja el clic en el botón de añadir
+            AlarmSoundPlayer.stop() // Para cualquier sonido que pueda estar reproduciendo
 
-            val nombre = etNombre.text.toString().ifBlank { "Alarma sin nombre" }
+            val nombre = etNombre.text.toString().ifBlank { "Alarma sin nombre" } // Obtiene el nombre de la alarma
+            val horaTexto = etHora.text.toString() // Obtiene la hora
+            val minutoTexto = etMinutos.text.toString() // Obtiene los minutos
+            val horaNum = horaTexto.toIntOrNull() // Convierte a entero
+            val minutoNum = minutoTexto.toIntOrNull() // Convierte a entero
 
-            val horaTexto = etHora.text.toString()
-            val minutoTexto = etMinutos.text.toString()
-
-            val horaNum = horaTexto.toIntOrNull()
-            val minutoNum = minutoTexto.toIntOrNull()
-
-            if (horaNum == null || minutoNum == null || horaNum !in 0..23 || minutoNum !in 0..59) {
+            if (horaNum == null || minutoNum == null || horaNum !in 0..23 || minutoNum !in 0..59) { // Valida la hora si no esta entre 00 y 23 y 00 y 59
                 Toast.makeText(
                     this,
                     "Hora inválida. Introduce valores entre 00–23 y 00–59",
@@ -113,20 +105,17 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val juego = spinnerJuego.selectedItem.toString()
-            Log.d("CrearAlarma", "Juego seleccionado: $juego")  // Log para depurar el nombre del juego
-            val dificultadTexto = spinnerDificultad.selectedItem.toString()
-            Log.d("CrearAlarma", "Dificultad seleccionada: $dificultadTexto")
+            val juego = spinnerJuego.selectedItem.toString() // Obtiene el juego seleccionado
+            val dificultadTexto = spinnerDificultad.selectedItem.toString() // Obtiene la dificultad seleccionada
 
-            val dificultad = when (dificultadTexto) {
+            val dificultad = when (dificultadTexto) { // Convierte la dificultad a una letra
                 "Fácil" -> "F"
                 "Medio" -> "M"
                 "Difícil" -> "D"
                 else -> "F"
             }
 
-            // Convertir los días activos en texto
-            val diasActivos = getTextoDias(
+            val diasActivos = getTextoDias( // Obtiene los días activos en texto
                 cbLunes.isChecked,
                 cbMartes.isChecked,
                 cbMiercoles.isChecked,
@@ -136,9 +125,9 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 cbDomingo.isChecked
             )
 
-            val sonido = spinnerSonido.selectedItem.toString()
+            val sonido = spinnerSonido.selectedItem.toString() // Obtiene el sonido seleccionado
 
-            val idJuego = when (juego) {
+            val idJuego = when (juego) { // Convierte el juego a un entero
                 "Despierta a Kkey" -> 1
                 "Despeina a Kkey" -> 2
                 "¡Resta!" -> 3
@@ -148,98 +137,97 @@ class CrearAlarmaActivity : AppCompatActivity() {
                 else -> 0
             }
 
-            val nuevaAlarma = AlarmEntity(
-                nombre = nombre,
-                hora = "%02d:%02d".format(horaNum, minutoNum),
-                idJuego = idJuego,
-                dificultad = dificultad,
-                diasActivos = diasActivos,
-                esActivo = true,
-                sonido = sonido
+            val nuevaAlarma = AlarmEntity( // Crea una nueva alarma
+                nombre = nombre, // Nombre de la alarma
+                hora = "%02d:%02d".format(horaNum, minutoNum), // Hora de la alarma
+                idJuego = idJuego, // ID del juego
+                dificultad = dificultad,// Dificultad de la alarma
+                diasActivos = diasActivos, // Días activos de la alarma
+                esActivo = true, // Alarma está activa
+                sonido = sonido // Sonido de la alarma
             )
 
-            val now = Calendar.getInstance()
-            val alarmTime = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, horaNum)
-                set(Calendar.MINUTE, minutoNum)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-
-                // Si la hora ya ha pasado hoy, programa para mañana
-                if (timeInMillis <= now.timeInMillis) {
-                    add(Calendar.DAY_OF_YEAR, 1)
-                }
-            }
-
-            // Aquí es donde se inserta tu código para crear el AlarmIntent y PendingIntent
-            val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
-                putExtra("sonido", sonido)
-                putExtra("idJuego", idJuego)
-                putExtra("dificultad", dificultad)
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                applicationContext,
-                System.currentTimeMillis().toInt(),
-                alarmIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
-                AlertDialog.Builder(this)
-                    .setTitle("Permiso requerido")
-                    .setMessage("Para que las alarmas suenen correctamente, activa la opción 'Permitir alarmas exactas' en los ajustes de la app.")
-                    .setPositiveButton("Ir a ajustes") { _, _ ->
-                        val intent = Intent().apply {
-                            action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            data = android.net.Uri.fromParts("package", packageName, null)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) { // Si la versión de Android es S o superior
+                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager // Servicio de alarmas
+                if (!alarmManager.canScheduleExactAlarms()) { // Si no se puede programar alarmas exactas
+                    AlertDialog.Builder(this) // Muestra un cuadro de diálogo
+                        .setTitle("Permiso requerido") // Título del cuadro de diálogo
+                        .setMessage("Para que las alarmas suenen correctamente, activa la opción 'Permitir alarmas exactas' en los ajustes de la app.")
+                        .setPositiveButton("Ir a ajustes") { _, _ ->
+                            val intent = Intent().apply {
+                                action = android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS // Acción para ir a ajustes de la app
+                                data = android.net.Uri.fromParts("package", packageName, null) // Datos de la app
+                            }
+                            startActivity(intent) // Inicia la actividad de ajustes
                         }
-                        startActivity(intent)
-                    }
-                    .setNegativeButton("Cancelar", null)
-                    .show()
-            } else {
-                lifecycleScope.launch {
-                    val idGenerado = AppDatabase.getInstance(applicationContext).alarmDao().insertAlarm(nuevaAlarma).toInt()
-                    Log.d("CrearAlarma", "Alarma guardada con ID: $idGenerado")
+                        .setNegativeButton("Cancelar", null)
+                        .show()
+                    return@setOnClickListener
+                }
+            }
 
-                    // Ahora crea el Intent y PendingIntent PASANDO el idGenerado
-                    val alarmIntent = Intent(applicationContext, AlarmReceiver::class.java).apply {
-                        putExtra("sonido", sonido)
-                        putExtra("idJuego", idJuego)
-                        putExtra("dificultad", dificultad)
-                        putExtra("idAlarma", idGenerado)
+            lifecycleScope.launch { //
+                val alarmDao = AppDatabase.getInstance(applicationContext).alarmDao() // DAO de alarmas
+                val idGenerado = alarmDao.insertAlarm(nuevaAlarma).toInt() // Inserta la alarma y obtiene el ID generado
+
+                val diasSeleccionados = diasActivos.split(" ") // Divide los días activos en una lista
+                val diasMap = mapOf( // Mapeo de días con sus respectivos valores
+                    "L" to Calendar.MONDAY,
+                    "M" to Calendar.TUESDAY,
+                    "X" to Calendar.WEDNESDAY,
+                    "J" to Calendar.THURSDAY,
+                    "V" to Calendar.FRIDAY,
+                    "S" to Calendar.SATURDAY,
+                    "D" to Calendar.SUNDAY
+                )
+
+                val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager // Servicio de alarmas
+
+                for (dia in diasSeleccionados) { // Programa una alarma para cada día seleccionado
+                    val calendar = Calendar.getInstance().apply { // Crea una instancia de Calendar
+                        set(Calendar.HOUR_OF_DAY, horaNum) // Configura la hora
+                        set(Calendar.MINUTE, minutoNum) // Configura los minutos
+                        set(Calendar.SECOND, 0) // Configura los segundos
+                        set(Calendar.MILLISECOND, 0) // Configura los milisegundos
+                        set(Calendar.DAY_OF_WEEK, diasMap[dia]!!)// Configura el día de la semana
+
+                        // Si el día ya pasó esta semana, programa para la próxima semana
+                        if (before(Calendar.getInstance())) {
+                            add(Calendar.WEEK_OF_YEAR, 1)
+                        }
                     }
 
-                    val pendingIntent = PendingIntent.getBroadcast(
-                        applicationContext,
-                        idGenerado, // requestCode único
-                        alarmIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    val alarmIntentDia = Intent(applicationContext, AlarmReceiver::class.java).apply { // Crea un intent para el receiver
+                        putExtra("sonido", sonido) // Pasa el sonido
+                        putExtra("idJuego", idJuego) // Pasa el ID del juego
+                        putExtra("dificultad", dificultad) // Pasa la dificultad
+                        putExtra("idAlarma", idGenerado) // Pasa el ID de la alarma
+                    }
+
+                    val pendingIntentDia = PendingIntent.getBroadcast( // Crea un PendingIntent para la alarma
+                        applicationContext, // Contexto de la aplicación
+                        "$idGenerado${diasMap[dia]}".toInt(), // ID único para la alarma
+                        alarmIntentDia,// Intent de la alarma
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE // Actualiza la actividad existente
                     )
 
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        alarmTime.timeInMillis,
-                        pendingIntent
+                    alarmManager.setExactAndAllowWhileIdle( // Programa la alarma
+                        AlarmManager.RTC_WAKEUP, // Tipo de wakeup
+                        calendar.timeInMillis, // Fecha y hora de la alarma
+                        pendingIntentDia // PendingIntent de la alarma
                     )
-
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@CrearAlarmaActivity,
-                            "Alarma guardada correctamente",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        finish()
-                    }
                 }
 
-
+                runOnUiThread {
+                    Toast.makeText(
+                        this@CrearAlarmaActivity,
+                        "Alarma guardada correctamente",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    finish()
+                }
             }
         }
-
     }
 
     // Función para convertir los días activos en texto

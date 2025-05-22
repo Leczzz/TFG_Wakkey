@@ -2,16 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Permisos necesarios para la aplicación -->
+
+    <!-- Permiso para acceder a la cámara, necesario para el juego ScanActivity que usa el escáner -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <!-- Se declara que la cámara es un hardware requerido para esta app -->
     <uses-feature android:name="android.hardware.camera" android:required="true" />
+    <!-- El flash de la cámara no es obligatorio, se usa opcionalmente -->
     <uses-feature android:name="android.hardware.camera.flash" android:required="false" />
+
+    <!-- Permiso para programar alarmas exactas, necesario para el correcto funcionamiento de las alarmas -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Permiso para ejecutar servicios en primer plano, usado para la alarma y notificaciones persistentes -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Permiso para mostrar notificaciones, requerido para las notificaciones de alarmas -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Permiso para ignorar optimizaciones de batería, para que la alarma no sea bloqueada -->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <!-- Permiso para mantener la CPU despierta durante la ejecución de alarmas o juegos -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- Permiso para mostrar ventanas encima de otras apps (por ejemplo, alarmas en pantalla bloqueada) -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <!-- Permiso para grabar audio, usado en el juego DespeinaActivity que detecta el soplido por micrófono -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Permiso para reproducir audio en primer plano, útil para el sonido de alarma -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
 
     <application
@@ -26,7 +39,7 @@
         android:theme="@style/Base.Theme.Wakkey"
         tools:targetApi="31">
 
-        <!-- Actividad principal -->
+        <!-- Actividad principal, es la que se lanza al abrir la app -->
         <activity
             android:name=".MainActivity"
             android:theme="@style/Base.Theme.Wakkey"
@@ -37,16 +50,24 @@
             </intent-filter>
         </activity>
 
-        <!-- Otras actividades -->
+        <!-- Otras actividades generales de la app -->
+
+        <!-- Pantalla que muestra los juegos disponibles -->
         <activity android:name=".JuegosActivity" />
+        <!-- Actividad con interfaz y lógica del cronómetro -->
         <activity android:name=".CronometroUIActivity" />
+        <!-- Actividad para crear o editar alarmas -->
         <activity android:name=".CrearAlarmaActivity" />
+        <!-- Lista de alarmas programadas -->
         <activity android:name=".AlarmListActivity" />
+        <!-- Lista de juegos disponibles -->
         <activity android:name=".JuegoListActivity" />
+        <!-- Actividad que maneja la alarma cuando suena -->
         <activity android:name=".AlarmActivity" />
+        <!-- Actividad para cuenta atrás -->
         <activity android:name=".CuentaAtrasActivity" />
 
-        <!-- Receivers -->
+        <!-- Receiver que recibe la alarma del sistema y lanza la alarma dentro de la app -->
         <receiver
             android:name=".AlarmReceiver"
             android:exported="true"
@@ -54,53 +75,49 @@
             android:turnScreenOn="true"
             />
 
-        <!-- Actividades de alarma -->
-        <activity
-            android:name=".DespiertaActivity"
-            android:exported="true"
+        <!-- Actividades específicas para cada juego o funcionalidad que se lanza desde la alarma -->
+
+        <!-- Juego 'Despeina a Kkey'-->
+        <activity android:name=".DespeinaActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
             />
 
+        <!-- Actividad para detener la alarma manualmente -->
         <activity android:name=".DetenerAlarmaActivity"
             android:showWhenLocked="true"
             android:turnScreenOn="true"
             android:excludeFromRecents="true"
-           />
+            />
 
-
-
-
-        <activity
-            android:name=".SumaActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+        <!-- Juego '¡Suma!' -->
+        <activity android:name=".SumaActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
             />
 
-        <activity
-            android:name=".RestaActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+        <!-- Juego '¡Resta!' -->
+        <activity android:name=".RestaActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
             />
 
-        <activity
-            android:name=".DespeinaActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+        <!-- Juego basado en sensor acelerómetro 'Despierta a Kkey' -->
+        <activity android:name=".DespiertaActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
-
             />
 
-        <activity
-            android:name=".ScanActivity"
-            android:exported="true"
-            android:launchMode="singleTask"
+        <!-- Juego de escaneo 'ScanKkey' -->
+        <activity android:name=".ScanActivity"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
             android:excludeFromRecents="true"
-
             />
-
-
 
     </application>
 

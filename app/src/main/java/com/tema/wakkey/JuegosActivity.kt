@@ -12,18 +12,19 @@ import com.tema.wakkey.Database.AppDatabase
 import com.tema.wakkey.Database.JuegoEntity
 import kotlinx.coroutines.launch
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad de Juegos.
 class JuegosActivity : AppCompatActivity() {
 
-    private lateinit var recyclerJuegos: RecyclerView
-    private lateinit var juegoAdapter: JuegoAdapter
-    private lateinit var juegosList: List<JuegoEntity>
+    private lateinit var recyclerJuegos: RecyclerView // Lista de juegos
+    private lateinit var juegoAdapter: JuegoAdapter // Adaptador de juegos
+    private lateinit var juegosList: List<JuegoEntity> // Lista de juegos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.juegos_main)
 
-        recyclerJuegos = findViewById(R.id.recyclerJuegos)
-        recyclerJuegos.layoutManager = LinearLayoutManager(this)
+        recyclerJuegos = findViewById(R.id.recyclerJuegos) // Lista de juegos
+        recyclerJuegos.layoutManager = LinearLayoutManager(this) // Configurar el layout
 
         // Botones para acciones
         findViewById<Button>(R.id.btnCronometro).setOnClickListener {
@@ -48,7 +49,7 @@ class JuegosActivity : AppCompatActivity() {
                 juegosList = juegoDao.getAllJuegos()
 
                 juegoAdapter = JuegoAdapter(juegosList) { juego, dificultad ->
-                    val intent = when (juego.nombre) {
+                    val intent = when (juego.nombre) { // Navegación entre actividades
                         "¡Suma!" -> {
                             val intent = Intent(this@JuegosActivity, SumaActivity::class.java)
 
@@ -119,7 +120,7 @@ class JuegosActivity : AppCompatActivity() {
                     intent.let { startActivity(it) }
                 }
 
-                recyclerJuegos.adapter = juegoAdapter
+                recyclerJuegos.adapter = juegoAdapter // Configurar el adaptador
             } catch (e: Exception) {
                 Toast.makeText(this@JuegosActivity, "Error al cargar los juegos", Toast.LENGTH_SHORT).show()
             }

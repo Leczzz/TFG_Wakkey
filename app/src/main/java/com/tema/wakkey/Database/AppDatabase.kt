@@ -15,19 +15,19 @@ abstract class AppDatabase : RoomDatabase() {
 
     companion object {
         @Volatile
-        private var INSTANCE: AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null // Instancia de la base de datos
 
-        // MEtodo para obtener la instancia de la base de datos
-        fun getInstance(context: android.content.Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
+        // Metodo para obtener la instancia de la base de datos
+        fun getInstance(context: android.content.Context): AppDatabase { // Contexto de la aplicación
+            return INSTANCE ?: synchronized(this) { // Bloquea la creación de múltiples instancias
+                val instance = Room.databaseBuilder( // Construye la base de datos
+                    context.applicationContext, // Contexto de la aplicación
+                    AppDatabase::class.java, // Clase de la base de datos
                     "wakkey_database"  // El nombre de la base de datos
-                ).fallbackToDestructiveMigration() //
-                 .build()
-                INSTANCE = instance
-                instance
+                ).fallbackToDestructiveMigration() // Permite migraciones destructivas
+                 .build() // Construye la base de datos
+                INSTANCE = instance // Guarda la instancia
+                instance // Devuelve la instancia
             }
         }
     }

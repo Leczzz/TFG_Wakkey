@@ -1,7 +1,6 @@
 package com.tema.wakkey
 
 import android.app.KeyguardManager
-import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
@@ -13,16 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tema.wakkey.suma.GeneradorSuma
 import com.tema.wakkey.suma.SumaGenerador
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad de Suma.
 class SumaActivity : AppCompatActivity() {
-    private lateinit var preguntas: List<SumaGenerador>
-    private var preguntaActual = 0
-    private var timer: CountDownTimer? = null
+    private lateinit var preguntas: List<SumaGenerador> // Lista de preguntas
+    private var preguntaActual = 0 // Índice de la pregunta actual
+    private var timer: CountDownTimer? = null // Temporizador
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Encender pantalla y mostrar encima del bloqueo
+        // Compatibilidad adicional para versiones antiguas
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -30,7 +29,11 @@ class SumaActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
 
-        // Solicitar desbloqueo de keyguard si es posible
+        // Requiere API 27+
+        setShowWhenLocked(true)
+        setTurnScreenOn(true)
+
+        // Solicitar desbloqueo del Keyguard (bloqueo de pantalla)
         val keyguardManager = getSystemService(KeyguardManager::class.java)
         keyguardManager?.requestDismissKeyguard(this, null)
 
@@ -46,8 +49,8 @@ class SumaActivity : AppCompatActivity() {
             return
         }
 
-        mostrarPreguntaActual()
-        iniciarTemporizador()
+        mostrarPreguntaActual() // Mostrar la primera pregunta
+        iniciarTemporizador() // Iniciar temporizador
 
         val sonidoNombre = intent.getStringExtra("sonido")
         val sonidoResId = when (sonidoNombre) {
@@ -59,14 +62,14 @@ class SumaActivity : AppCompatActivity() {
             else -> R.raw.morning
         }
 
-        AlarmSoundPlayer.start(this, sonidoResId)
+        AlarmSoundPlayer.start(this, sonidoResId) // Reproducir sonido
 
-        findViewById<Button>(R.id.btnVerificar).setOnClickListener {
-            val respuestaTexto = findViewById<EditText>(R.id.tvRespuesta).text.toString()
-            val respuesta = respuestaTexto.toIntOrNull()
+        findViewById<Button>(R.id.btnVerificar).setOnClickListener { // Verificar respuesta
+            val respuestaTexto = findViewById<EditText>(R.id.tvRespuesta).text.toString() // Respuesta del usuario
+            val respuesta = respuestaTexto.toIntOrNull() // Convertir a entero
 
-            if (respuesta == preguntas[preguntaActual].resultado) {
-                preguntaActual++
+            if (respuesta == preguntas[preguntaActual].resultado) { // Si la respuesta es correcta
+                preguntaActual++ // Incrementar la pregunta actual
                 if (preguntaActual < preguntas.size) {
                     mostrarPreguntaActual()
                 } else {

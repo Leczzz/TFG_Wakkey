@@ -12,6 +12,7 @@ import com.tema.wakkey.Database.AppDatabase
 import com.tema.wakkey.Database.JuegoEntity
 import kotlinx.coroutines.launch
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad de Juegos.
 class JuegoListActivity : AppCompatActivity() {
 
     private lateinit var recyclerJuegos: RecyclerView
@@ -22,14 +23,14 @@ class JuegoListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.juegos_main)
 
-        recyclerJuegos = findViewById(R.id.recyclerJuegos)
-        recyclerJuegos.layoutManager = LinearLayoutManager(this)
+        recyclerJuegos = findViewById(R.id.recyclerJuegos) // Lista de juegos
+        recyclerJuegos.layoutManager = LinearLayoutManager(this) // Configurar el layout
 
         // Cargar los juegos desde la base de datos
         lifecycleScope.launch {
             try {
-                val juegoDao = AppDatabase.getInstance(this@JuegoListActivity).juegoDao()
-                juegosList = juegoDao.getAllJuegos()
+                val juegoDao = AppDatabase.getInstance(this@JuegoListActivity).juegoDao() // Obtener el DAO
+                juegosList = juegoDao.getAllJuegos() // Obtener todos los juegos
 
                 // Mostrar los juegos por consola (debug)
                 Log.d("JuegoListActivity", "Juegos encontrados: ${juegosList.joinToString { it.nombre }}")
@@ -78,7 +79,7 @@ class JuegoListActivity : AppCompatActivity() {
                     }
                 }
 
-                recyclerJuegos.adapter = juegoAdapter
+                recyclerJuegos.adapter = juegoAdapter // Configurar el adaptador
 
             } catch (e: Exception) {
                 Log.e("JuegoListActivity", "Error al cargar juegos", e)

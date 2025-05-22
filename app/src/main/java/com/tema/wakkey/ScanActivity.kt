@@ -1,6 +1,7 @@
 package com.tema.wakkey
 
 import android.Manifest
+import android.app.KeyguardManager
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.WindowManager
@@ -13,16 +14,20 @@ import com.google.zxing.ResultPoint
 import com.journeyapps.barcodescanner.*
 import com.journeyapps.barcodescanner.camera.CameraSettings
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad de Scan.
 class ScanActivity : AppCompatActivity() {
 
-    private lateinit var barcodeView: DecoratedBarcodeView
-    private var isFlashOn = false
-    private val CAMERA_PERMISSION_CODE = 1001
+    private lateinit var barcodeView: DecoratedBarcodeView // Vista de códigos de barras
+    private var isFlashOn = false // Estado del flash
+    private val CAMERA_PERMISSION_CODE = 1001 // Código de permiso de cámara
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Mantener pantalla encendida y sobre la pantalla de bloqueo
+        // Inflar el layout (cambia por el nombre real de tu layout)
+        setContentView(R.layout.scankkey_main)
+
+        // Compatibilidad adicional para versiones antiguas
         window.addFlags(
             WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
                     WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
@@ -30,7 +35,15 @@ class ScanActivity : AppCompatActivity() {
                     WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
         )
 
-        setContentView(R.layout.scankkey_main)
+        // Requiere API 27+
+        setShowWhenLocked(true)
+        setTurnScreenOn(true)
+
+        // Solicitar desbloqueo del Keyguard (bloqueo de pantalla)
+        val keyguardManager = getSystemService(KeyguardManager::class.java)
+        keyguardManager?.requestDismissKeyguard(this, null)
+
+        // Inicializar barcodeView
         barcodeView = findViewById(R.id.barcodeScannerView)
 
         // Configurar botón de flash
@@ -56,10 +69,11 @@ class ScanActivity : AppCompatActivity() {
         // Iniciar sonido
         AlarmSoundPlayer.start(this, sonidoResId)
 
+        // Comprobar permiso y arrancar cámara o pedir permiso
         checkCameraPermission()
     }
 
-    private fun checkCameraPermission() {
+    private fun checkCameraPermission() { // Comprobar permiso de cámara
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
             != PackageManager.PERMISSION_GRANTED
         ) {
@@ -78,12 +92,12 @@ class ScanActivity : AppCompatActivity() {
             override fun barcodeResult(result: BarcodeResult?) {
                 result?.text?.let { code ->
                     Toast.makeText(this@ScanActivity, "Código escaneado: $code", Toast.LENGTH_LONG).show()
-                    finalizarJuego()
-                    barcodeView.pause()
+                    finalizarJuego() // Finalizar el juego
+                    barcodeView.pause() // Pausar la vista de códigos de barras
                 }
             }
 
-            override fun possibleResultPoints(resultPoints: MutableList<ResultPoint>?) {}
+            override fun possibleResultPoints(resultPoints: MutableList<ResultPoint>?) {} // No se usa
         })
     }
 
@@ -92,7 +106,7 @@ class ScanActivity : AppCompatActivity() {
         finish()
     }
 
-    override fun onRequestPermissionsResult(
+    override fun onRequestPermissionsResult( // Manejar permisos
         requestCode: Int,
         permissions: Array<out String>,
         grantResults: IntArray

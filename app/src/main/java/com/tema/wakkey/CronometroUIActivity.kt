@@ -12,15 +12,17 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.graphics.Color
 
+// Clase para la actividad del cronómetro
+//Se encarga de manejar la lógica y la interacción del cronómetro en la interfaz de usuario.
 class CronometroUIActivity : AppCompatActivity() {
-    private lateinit var cronometro: CronometroController
-    private lateinit var txtTiempo: TextView
-    private lateinit var tablaVueltas: TableLayout
-    private lateinit var btnIniciar: Button
-    private lateinit var btnPausar: Button
-    private lateinit var btnReanudar: Button
-    private lateinit var btnVuelta: Button
-    private lateinit var btnDetener: Button
+    private lateinit var cronometro: CronometroController // Controlador del cronómetro
+    private lateinit var txtTiempo: TextView // Vista para mostrar el tiempo
+    private lateinit var tablaVueltas: TableLayout // Tabla para mostrar las vueltas
+    private lateinit var btnIniciar: Button // Botón para iniciar el cronómetro
+    private lateinit var btnPausar: Button // Botón para pausar el cronómetro
+    private lateinit var btnReanudar: Button // Botón para reanudar el cronómetro
+    private lateinit var btnVuelta: Button // Botón para registrar una vuelta
+    private lateinit var btnDetener: Button // Botón para detener el cronómetro
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,13 +43,13 @@ class CronometroUIActivity : AppCompatActivity() {
             startActivity(Intent(this, CronometroUIActivity::class.java))
         }
 
-        txtTiempo = findViewById(R.id.txtTiempo)
-        tablaVueltas = findViewById(R.id.tablaVueltas)
+        txtTiempo = findViewById(R.id.txtTiempo) // Vista para mostrar el tiempo
+        tablaVueltas = findViewById(R.id.tablaVueltas) // Tabla para mostrar las vueltas
 
         // Inicialización del cronómetro
         cronometro = CronometroController { tiempoFormateado ->
             runOnUiThread {
-                txtTiempo.text = tiempoFormateado
+                txtTiempo.text = tiempoFormateado // Actualizar el tiempo en la vista
             }
         }
 
@@ -86,10 +88,10 @@ class CronometroUIActivity : AppCompatActivity() {
             // Eliminar todas las filas excepto la de encabezado (índice 0)
             val count = tablaVueltas.childCount
             if (count > 1) {
-                tablaVueltas.removeViews(1, count - 1)
+                tablaVueltas.removeViews(1, count - 1) // Eliminar filas
             }
 
-            configurarBotones()
+            configurarBotones() // Configurar botones
         }
 
         // Registrar vuelta
@@ -106,7 +108,7 @@ class CronometroUIActivity : AppCompatActivity() {
         }
     }
 
-    // Método para configurar la visibilidad de los botones según el estado del cronómetro
+    // Metodo para configurar la visibilidad de los botones según el estado del cronómetro
     private fun configurarBotones() {
         if (cronometro.isRunning) {
             // Si el cronómetro está corriendo, ocultar "Iniciar" y mostrar "Pausar" y "Vuelta"
@@ -132,14 +134,6 @@ class CronometroUIActivity : AppCompatActivity() {
         }
     }
 
-    // Función auxiliar para crear celdas de texto (opcional, útil si decides crear el encabezado dinámicamente)
-    private fun crearCelda(texto: String): TextView {
-        return TextView(this).apply {
-            this.text = texto
-            textSize = 16f
-            setTextColor(Color.BLACK)
-            gravity = Gravity.CENTER
-            setPadding(12, 12, 12, 12)
-        }
-    }
+
+
 }

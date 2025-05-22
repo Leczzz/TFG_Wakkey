@@ -2,24 +2,34 @@ package com.tema.wakkey
 
 import android.app.KeyguardManager
 import android.os.Bundle
+import android.view.WindowManager
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tema.wakkey.Database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.widget.Button
 
+// Esta clase se encarga de manejar la lógica y la interacción de la actividad de Detener Alarma.
 class DetenerAlarmaActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Mostrar encima del bloqueo y encender pantalla
+        // Compatibilidad adicional para versiones antiguas
+        window.addFlags(
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or
+                    WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED or
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON
+        )
+
+        // Requiere API 27+
         setShowWhenLocked(true)
         setTurnScreenOn(true)
 
-        // Desbloquear el keyguard si es posible
+        // Solicitar desbloqueo del Keyguard (bloqueo de pantalla)
         val keyguardManager = getSystemService(KeyguardManager::class.java)
         keyguardManager?.requestDismissKeyguard(this, null)
 
@@ -27,14 +37,14 @@ class DetenerAlarmaActivity : AppCompatActivity() {
 
         val idAlarma = intent.getIntExtra("idAlarma", -1)
 
-        if (idAlarma != -1) {
-            lifecycleScope.launch {
-                val alarma = withContext(Dispatchers.IO) {
-                    val db = AppDatabase.getInstance(applicationContext)
-                    db.alarmDao().obtenerAlarmaPorId(idAlarma)
+        if (idAlarma != -1) { // Si se pasó el ID de la alarma
+            lifecycleScope.launch { // Iniciar una corrutina
+                val alarma = withContext(Dispatchers.IO) { // Ejecutar en un hilo de E/S
+                    val db = AppDatabase.getInstance(applicationContext) //  Obtener la instancia de la base de datos
+                    db.alarmDao().obtenerAlarmaPorId(idAlarma) // Obtener alarma por ID
                 }
 
-                if (alarma != null) {
+                if (alarma != null) { // Si la alarma existe
                     val sonidoNombre = intent.getStringExtra("sonido") ?: "Morning"
                     val sonidoResId = when (sonidoNombre) {
                         "Crystal Waters" -> R.raw.crystalwaters
@@ -49,8 +59,8 @@ class DetenerAlarmaActivity : AppCompatActivity() {
             }
         }
 
-        findViewById<Button>(R.id.btnDetenerAlarma).setOnClickListener {
-            detenerSonidoYSalir()
+        findViewById<Button>(R.id.btnDetenerAlarma).setOnClickListener { // Botón para detener la alarma
+            detenerSonidoYSalir() // Detener el sonido y salir
         }
     }
 

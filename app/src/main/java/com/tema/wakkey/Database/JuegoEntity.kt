@@ -11,4 +11,4 @@ data class JuegoEntity(
     val descripcion: String,
     val tieneDificultad: Boolean,
     val imagenResId: Int
-): Serializable
+): Serializable // Permite pasar el objeto JuegoEntity entre actividades

@@ -5,6 +5,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.tema.wakkey.Database.JuegoEntity
 
+ // ViewHolder para el item de juego
 class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val ivLogo: ImageView = itemView.findViewById(R.id.ivLogo)
     private val tvNombreJuego: TextView = itemView.findViewById(R.id.tvNombreJuego)
@@ -13,8 +14,8 @@ class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val btnJugar: Button = itemView.findViewById(R.id.btnJugar)
 
     fun bind(
-        juego: JuegoEntity,
-        onJugarClickListener: (JuegoEntity, String) -> Unit
+        juego: JuegoEntity, // Juego actual
+        onJugarClickListener: (JuegoEntity, String) -> Unit // Manejador de clics en "Jugar"
     ) {
         // Setear texto
         tvNombreJuego.text = juego.nombre
@@ -42,8 +43,8 @@ class JuegoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
         ivLogo.setImageResource(logoResId)
         btnJugar.setOnClickListener {
-            val dificultadSeleccionada = spinnerDificultad.selectedItem?.toString() ?: "F"
-            onJugarClickListener(juego, dificultadSeleccionada)
+            val dificultadSeleccionada = spinnerDificultad.selectedItem?.toString() ?: "F" // Obtener dificultad
+            onJugarClickListener(juego, dificultadSeleccionada) // Llamar al manejador de clics
         }
 
         }
