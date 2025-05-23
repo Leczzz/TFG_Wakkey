@@ -6,7 +6,7 @@
 
 ## 🚨 IMPORTANTE
 
-### ✅ **El código limpio, bien estructurado y totalmente comentado está en la rama [`main`]([https://github.com/tuusuario/tu-repo/tree/main](https://github.com/Leczzz/TFG_Wakkey])**
+### ✅ **El código limpio, bien estructurado y totalmente comentado está en la rama [`main`]([https://github.com/Leczzz/TFG_Wakkey])**
 
 > Para revisar la lógica completa de la app, ejemplos de implementación de juegos, y estructura general de carpetas y clases, por favor consulta la rama `main`.
 
