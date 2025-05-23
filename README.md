@@ -51,66 +51,61 @@ gitG## 🌿 Estructura de ramas de Wakkey (Git)
 
 ```mermaid
 gitGraph
-    commit id: "Inicio del proyecto Wakkey"
-    branch main
-    checkout main
-    commit id: "Base estable en main"
+   commit id: "Inicio del proyecto"
+   branch main
+   checkout main
+   commit id: "Código base en main"
 
-    branch juegos
-    checkout juegos
-    commit id: "Interfaz de juegos y alarmas"
+   branch juegos
+   checkout juegos
+   commit id: "Interfaz de crear alarma y item_juegos"
 
-    branch Suma_Alarma
-    checkout Suma_Alarma
-    commit id: "Implementación juego ¡Suma!"
+   branch Suma_Alarma
+   checkout Suma_Alarma
+   commit id: "Juego ¡Suma! implementado"
+   checkout juegos
+   merge Suma_Alarma
 
-    checkout juegos
-    merge Suma_Alarma
+   branch logica_juegos
+   checkout logica_juegos
+   commit id: "Recuperación de juegos y mejoras"
+   merge juegos
 
-    branch logica_interfaz_juegos
-    checkout logica_interfaz_juegos
-    commit id: "Recuperación y ajustes código de juegos"
-    merge juegos
+   branch juego_resta
+   checkout juego_resta
+   commit id: "Implementación del juego Resta"
 
-    branch Logica_interfaz_juegos_y_juego_resta
-    checkout Logica_interfaz_juegos_y_juego_resta
-    commit id: "Implementación juego Resta"
+   branch alarmas
+   checkout alarmas
+   commit id: "Lógica completa de alarmas"
 
-    branch logica_completa_alarmas
-    checkout logica_completa_alarmas
-    commit id: "Lógica completa de alarmas"
+   branch cronometro
+   checkout cronometro
+   commit id: "Mejoras y lógica del cronómetro"
 
-    branch mejoras_cronometro
-    checkout mejoras_cronometro
-    commit id: "Mejoras en cronómetro"
+   branch cuenta_atras
+   checkout cuenta_atras
+   commit id: "Cuenta atrás completada"
 
-    branch logica_interfaz_cronometro
-    checkout logica_interfaz_cronometro
-    commit id: "Lógica + interfaz de cronómetro"
+   branch despeinakkey
+   checkout despeinakkey
+   commit id: "Juego Despeina a Kkey"
 
-    branch logica_interfaz_cuentaatras
-    checkout logica_interfaz_cuentaatras
-    commit id: "Cuenta atrás completa"
+   branch despiertakkey
+   checkout despiertakkey
+   commit id: "Juego Despierta a Kkey"
 
-    branch logica_interfaz_juego_despeinakkey
-    checkout logica_interfaz_juego_despeinakkey
-    commit id: "Juego Despeina a Kkey"
+   branch scankkey
+   checkout scankkey
+   commit id: "Juego ScanKkey terminado"
 
-    branch logica_interfaz_juego_despiertakkey
-    checkout logica_interfaz_juego_despiertakkey
-    commit id: "Juego Despierta a Kkey"
-
-    branch logica_interfaz_juego_scankkey
-    checkout logica_interfaz_juego_scankkey
-    commit id: "Juego ScanKkey completo"
-
-    checkout main
-    merge logica_completa_alarmas
-    merge logica_interfaz_juegos
-    merge Logica_interfaz_juegos_y_juego_resta
-    merge mejoras_cronometro
-    merge logica_interfaz_cronometro
-    merge logica_interfaz_cuentaatras
-    merge logica_interfaz_juego_despeinakkey
-    merge logica_interfaz_juego_despiertakkey
-    merge logica_interfaz_juego_scankkey
+   checkout main
+   merge logica_juegos
+   merge juego_resta
+   merge alarmas
+   merge cronometro
+   merge cuenta_atras
+   merge despeinakkey
+   merge despiertakkey
+   merge scankkey
+```
