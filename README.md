@@ -1,6 +1,6 @@
 # 🛌⏰ Wakkey - La llave del despertar
 
-![Wakkey Logo](RUTA/A/TU/LOGO.png)
+![Wakkey Logo](img.png)
 
 ---
 
