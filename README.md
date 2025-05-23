@@ -12,6 +12,12 @@
 
 ---
 
+### ✅ **El apk se ecnuentra en la carpteta pricipal de [`main`](https://github.com/Leczzz/TFG_Wakkey) **
+
+> El archivo apk se llama ``.
+
+---
+
 ## 📱 ¿Qué es Wakkey?
 
 **Wakkey** es una aplicación de alarmas para Android que solo se puede desactivar completando un juego. Está diseñada para asegurarse de que el usuario esté verdaderamente despierto antes de apagar la alarma.
