@@ -12,9 +12,9 @@
 
 ---
 
-### ✅ **El apk se ecnuentra en la carpteta pricipal de [`main`](https://github.com/Leczzz/TFG_Wakkey) **
+### ✅ **El apk se ecnuentra en la carpteta pricipal de [`main`](https://github.com/Leczzz/TFG_Wakkey)**
 
-> El archivo apk se llama ``.
+> El archivo apk se llama `app-debug.apk`.
 
 ---
 
