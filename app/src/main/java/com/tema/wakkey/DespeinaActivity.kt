@@ -26,6 +26,7 @@ class DespeinaActivity : AppCompatActivity() {
     private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
     private var progreso = 0
     private lateinit var progressBar: ProgressBar
+    private lateinit var porcentajeProgreso: TextView
     private lateinit var config: DespeinaConfig
     private lateinit var kkeyImage: ImageView
 
@@ -54,6 +55,7 @@ class DespeinaActivity : AppCompatActivity() {
 
         progressBar = findViewById(R.id.progresoBarra) // Barra de progreso
         kkeyImage = findViewById(R.id.imgGatito) // Imagen de Kkey
+        porcentajeProgreso = findViewById(R.id.porcentajeProgreso) // Porcentaje sobre la barra
 
         // Obtener dificultad desde la Intent, valor por defecto "F"
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
@@ -149,12 +151,13 @@ class DespeinaActivity : AppCompatActivity() {
                 if (isRecorderStarted) { // Si el grabador está iniciado
                     try {
                         val amplitud = ((recorder?.maxAmplitude ?: 0) * config.sensibilidad).toInt() // Calcula la amplitud
-                        if (amplitud > 1000) { // Si la amplitud es mayor a un umbral
+                        if (amplitud > 5000) { // Si la amplitud es mayor a un umbral
                             progreso += 5
                             if (progreso > config.progresoObjetivo) {
                                 progreso = config.progresoObjetivo // Si el progreso supera el objetivo, establecerlo
                             }
                             progressBar.progress = progreso // Actualiza la barra de progreso
+                            porcentajeProgreso.text = "${(progreso * 100 / config.progresoObjetivo)}%" // Actualiza el porcentaje
                             kkeyImage.setImageResource(R.drawable.sinfondoenfadado) // Imagen al detectar sonido
                             if (progreso >= config.progresoObjetivo) { // Si el progreso llega al objetivo
                                 mostrarMensaje("¡Despeinaste a Kkey!") // Mensaje de despeinado exitoso

@@ -8,6 +8,8 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -25,12 +27,17 @@ class DespiertaActivity : AppCompatActivity(), SensorEventListener {
     private var progreso = 0 // Progreso de la barra de progreso
     private lateinit var progressBar: ProgressBar // Barra de progreso
     private lateinit var wakkeyImage: ImageView // Imagen de Kkey
+    private lateinit var porcentajeProgreso: TextView // Texto de porcentaje
     private var timer: CountDownTimer? = null // Temporizador
-    private val tiempoLimite = 5 * 60 * 1000L
+    private val tiempoLimite = 5 * 60 * 1000L // 5 minutos
 
     // Variables para configuración dinámica
     private var progresoObjetivo = 100
     private var sensibilidad = 15.0f
+
+    // Handler para cambiar la imagen de vuelta a dormido después de un tiempo
+    private val handler = Handler(Looper.getMainLooper())
+    private var resetImageRunnable: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +60,7 @@ class DespiertaActivity : AppCompatActivity(), SensorEventListener {
 
         progressBar = findViewById(R.id.progresoBarra) // Barra de progreso
         wakkeyImage = findViewById(R.id.imgGatito) // Imagen de Kkey
+        porcentajeProgreso = findViewById(R.id.porcentajeProgreso) // Texto porcentaje
 
         // Obtener dificultad del Intent, default a "F"
         val dificultad = intent.getStringExtra("dificultad") ?: "F"
@@ -118,13 +126,26 @@ class DespiertaActivity : AppCompatActivity(), SensorEventListener {
             if (aceleracion > sensibilidad) { // Si la aceleración es mayor a la sensibilidad
                 progreso++ // Incrementar el progreso
                 progressBar.progress = progreso // Actualizar la barra de progreso
+
+                // Actualizar texto del porcentaje de progreso
+                val porcentaje = (progreso * 100 / progresoObjetivo).coerceAtMost(100)
+                porcentajeProgreso.text = "$porcentaje%"
+
                 wakkeyImage.setImageResource(R.drawable.kkeysinfondo) // Cambiar la imagen
+
+                // Cancelar cualquier runnable previo
+                resetImageRunnable?.let { handler.removeCallbacks(it) }
+
+                // Definir nuevo runnable para volver a la imagen dormida tras 500ms
+                resetImageRunnable = Runnable {
+                    wakkeyImage.setImageResource(R.drawable.kkeydormido)
+                }
+                handler.postDelayed(resetImageRunnable!!, 500)
+
                 if (progreso >= progresoObjetivo) { // Si el progreso llega al objetivo
                     mostrarMensaje("¡Despertaste a Kkey!") // Mensaje de despeinado exitoso
                     finalizarJuego() // Finalizar el juego
                 }
-            } else {
-                wakkeyImage.setImageResource(R.drawable.kkeydormido)
             }
         }
     }
@@ -144,6 +165,7 @@ class DespiertaActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onDestroy() {
         super.onDestroy()
+        handler.removeCallbacks(resetImageRunnable ?: Runnable { }) // Eliminar callbacks pendientes
         finalizarJuego()
     }
 }
