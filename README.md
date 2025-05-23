@@ -40,7 +40,7 @@
 ## 👩‍💻 Desarrolladora
 
 - Maria Alexandra Tirca
-- [Tu contacto o GitHub]
+- [https://github.com/Leczzz]
 
 ---
 
