@@ -47,47 +47,62 @@
 
 ## 🌿 Estructura de ramas de Wakkey (Git)
 
+gitG## 🌿 Estructura de ramas de Wakkey (Git)
+
 ```mermaid
 gitGraph
     commit id: "Inicio del proyecto Wakkey"
     branch main
-    commit id: "Base funcional estable"
+    checkout main
+    commit id: "Base estable en main"
 
     branch juegos
-    commit id: "Interfaz para juegos y creación de alarmas"
+    checkout juegos
+    commit id: "Interfaz de juegos y alarmas"
 
     branch Suma_Alarma
-    commit id: "Lógica e interfaz de juego ¡Suma!"
+    checkout Suma_Alarma
+    commit id: "Implementación juego ¡Suma!"
+
     checkout juegos
     merge Suma_Alarma
 
     branch logica_interfaz_juegos
-    commit id: "Código recuperado y ajustes generales"
+    checkout logica_interfaz_juegos
+    commit id: "Recuperación y ajustes código de juegos"
     merge juegos
 
     branch Logica_interfaz_juegos_y_juego_resta
-    commit id: "Juego Resta implementado"
+    checkout Logica_interfaz_juegos_y_juego_resta
+    commit id: "Implementación juego Resta"
 
     branch logica_completa_alarmas
+    checkout logica_completa_alarmas
     commit id: "Lógica completa de alarmas"
 
     branch mejoras_cronometro
-    commit id: "Mejoras de cronómetro"
+    checkout mejoras_cronometro
+    commit id: "Mejoras en cronómetro"
 
     branch logica_interfaz_cronometro
-    commit id: "Interfaz y lógica del cronómetro"
+    checkout logica_interfaz_cronometro
+    commit id: "Lógica + interfaz de cronómetro"
 
     branch logica_interfaz_cuentaatras
-    commit id: "Cuenta atrás funcional"
+    checkout logica_interfaz_cuentaatras
+    commit id: "Cuenta atrás completa"
 
     branch logica_interfaz_juego_despeinakkey
+    checkout logica_interfaz_juego_despeinakkey
     commit id: "Juego Despeina a Kkey"
 
     branch logica_interfaz_juego_despiertakkey
+    checkout logica_interfaz_juego_despiertakkey
     commit id: "Juego Despierta a Kkey"
 
     branch logica_interfaz_juego_scankkey
-    commit id: "Juego ScanKkey"
+    checkout logica_interfaz_juego_scankkey
+    commit id: "Juego ScanKkey completo"
 
     checkout main
     merge logica_completa_alarmas
@@ -99,4 +114,3 @@ gitGraph
     merge logica_interfaz_juego_despeinakkey
     merge logica_interfaz_juego_despiertakkey
     merge logica_interfaz_juego_scankkey
-```
