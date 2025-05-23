@@ -30,10 +30,17 @@
 
 ## 🛠 Tecnologías
 
-- Kotlin
-- Android SDK
-- RoomDB
+- Kotlin  
+- Android SDK  
+- RoomDB  
 - Sensores (micrófono, acelerómetro, cámara)
+
+---
+
+## 👩‍💻 Desarrolladora
+
+- Maria Alexandra Tirca  
+- [https://github.com/Leczzz](https://github.com/Leczzz)
 
 ---
 
@@ -104,14 +111,3 @@ gitGraph
    merge logica_interfaz_juego_despeinakkey
    merge logica_interfaz_juego_despiertakkey
    merge logica_interfaz_juego_scankkey
-
-
----
-
-## 👩‍💻 Desarrolladora
-
-- Maria Alexandra Tirca
-- [https://github.com/Leczzz]
-
----
-
